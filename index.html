@@ -1,0 +1,3426 @@
+<!DOCTYPE html>
+<html lang="zh-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>🌟 書琳客戶名單管理</title>
+<meta name="application-name" content="書琳客戶名單管理">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<meta name="apple-mobile-web-app-title" content="書琳客戶">
+<meta name="mobile-web-app-capable" content="yes">
+<meta name="theme-color" content="#FFD93D">
+<meta name="description" content="書琳瘦身諮詢客戶管理系統">
+<link href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800;900&family=Noto+Sans+TC:wght@300;400;500;700&display=swap" rel="stylesheet">
+<style>
+:root {
+  --sun: #FFD93D;
+  --honey: #FFC200;
+  --deep: #E6A800;
+  --cream: #FFFBEC;
+  --peach: #FFB347;
+  --coral: #FF6B6B;
+  --green: #6BCB77;
+  --blue: #4D96FF;
+  --purple: #C77DFF;
+  --pink: #FF85A1;
+  --white: #FFFFFF;
+  --brown: #3D2B1F;
+  --mid: #7A5C4A;
+  --soft: #B89880;
+  --border: #FFE999;
+  --shadow: 0 4px 16px rgba(255,193,0,0.18);
+  --shadow-lg: 0 8px 32px rgba(255,193,0,0.28);
+  --r: 18px;
+  --r-sm: 12px;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:'Noto Sans TC',sans-serif;background:var(--cream);color:var(--brown);min-height:100vh;overflow-x:hidden}
+
+/* ── HEADER ── */
+.header{
+  background:linear-gradient(135deg,#FFD93D 0%,#FFB347 100%);
+  padding:14px 20px;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 4px 20px rgba(255,180,0,0.35);
+}
+.header-inner{max-width:1140px;margin:0 auto;display:flex;align-items:center;gap:12px;flex-wrap:wrap}
+.logo{font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;color:var(--brown);display:flex;align-items:center;gap:6px;white-space:nowrap}
+.logo-icon{font-size:1.6rem;animation:float 3s ease-in-out infinite}
+@keyframes float{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+.header-stats{
+  margin-left:auto;
+  background:rgba(255,255,255,0.55);
+  border-radius:30px;padding:5px 14px;
+  font-size:0.82rem;font-weight:700;color:var(--brown);
+  display:flex;gap:16px;align-items:center;flex-wrap:wrap;
+}
+.stat-item{display:flex;align-items:center;gap:4px}
+.btn-add-header{
+  background:var(--brown);color:var(--sun);
+  border:none;padding:9px 20px;border-radius:30px;
+  font-size:0.9rem;font-weight:800;cursor:pointer;
+  font-family:'Nunito',sans-serif;
+  transition:all 0.2s;white-space:nowrap;
+  box-shadow:0 2px 8px rgba(61,43,31,0.25);
+}
+.btn-add-header:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(61,43,31,0.3)}
+
+/* ── NAV TABS ── */
+.nav-tabs{
+  background:var(--white);
+  border-bottom:2px solid var(--border);
+  display:flex;gap:0;
+  position:sticky;top:64px;z-index:90;
+  box-shadow:0 2px 8px rgba(255,193,0,0.1);
+}
+.nav-tab{
+  padding:12px 24px;font-size:0.9rem;font-weight:700;
+  color:var(--soft);cursor:pointer;border:none;background:none;
+  font-family:'Noto Sans TC',sans-serif;
+  border-bottom:3px solid transparent;
+  transition:all 0.2s;white-space:nowrap;
+}
+.nav-tab:hover{color:var(--honey);background:rgba(255,217,61,0.08)}
+.nav-tab.active{color:var(--deep);border-bottom-color:var(--sun);background:rgba(255,217,61,0.1)}
+
+/* ── MAIN ── */
+.main{max-width:1140px;margin:0 auto;padding:20px 16px}
+.tab-content{display:none}.tab-content.active{display:block}
+
+/* ── SEARCH & FILTER ── */
+.search-card{
+  background:var(--white);border-radius:var(--r);
+  padding:18px 20px;margin-bottom:18px;
+  box-shadow:var(--shadow);border:2px solid var(--border);
+}
+.search-wrap{position:relative;margin-bottom:12px}
+.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);font-size:1.1rem}
+.search-input{
+  width:100%;padding:11px 14px 11px 42px;
+  border:2px solid var(--border);border-radius:30px;
+  font-size:0.95rem;font-family:'Noto Sans TC',sans-serif;
+  background:var(--cream);color:var(--brown);transition:all 0.2s;
+}
+.search-input:focus{outline:none;border-color:var(--honey);background:var(--white);box-shadow:0 0 0 3px rgba(255,194,0,0.15)}
+.search-hint{font-size:0.75rem;color:var(--soft);margin-top:6px}
+.filter-row{display:flex;flex-wrap:wrap;gap:7px;margin-top:12px}
+.ftag{
+  padding:5px 14px;border-radius:30px;font-size:0.8rem;font-weight:700;
+  cursor:pointer;border:2px solid transparent;transition:all 0.18s;user-select:none;
+}
+.ftag.all{background:#FFF8DC;color:var(--deep);border-color:var(--border)}
+.ftag.all.active,.ftag.all:hover{background:var(--sun);color:var(--brown)}
+.ftag.deal{background:#E8FFE8;color:#2D8C3C;border-color:#B8E8B8}
+.ftag.deal.active,.ftag.deal:hover{background:var(--green);color:white}
+.ftag.nodeal{background:#FFE8E8;color:#CC4444;border-color:#FFB8B8}
+.ftag.nodeal.active,.ftag.nodeal:hover{background:var(--coral);color:white}
+.ftag.remind{background:#FFF0E0;color:#CC6600;border-color:#FFCC88}
+.ftag.remind.active,.ftag.remind:hover{background:var(--peach);color:white}
+.ftag.skin{background:#FFF0F7;color:#CC3377;border-color:#FFBBDD}
+.ftag.skin.active,.ftag.skin:hover{background:var(--pink);color:white}
+.ftag.fat{background:#FFF4E8;color:#CC6600;border-color:#FFDDAA}
+.ftag.fat.active,.ftag.fat:hover{background:var(--peach);color:white}
+.ftag.inner{background:#F3F0FF;color:#6633CC;border-color:#CCBBFF}
+.ftag.inner.active,.ftag.inner:hover{background:var(--purple);color:white}
+.ftag.female{background:#FFF0F5;color:#CC2266;border-color:#FFAABB}
+.ftag.female.active,.ftag.female:hover{background:#FF85A1;color:white}
+.ftag.extra{background:#EEF6FF;color:#2255AA;border-color:#AACCFF}
+.ftag.extra.active,.ftag.extra:hover{background:var(--blue);color:white}
+
+/* ── RESULTS ── */
+.results-bar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;font-size:0.83rem;color:var(--soft)}
+.results-bar strong{color:var(--deep)}
+
+/* ── CARDS GRID ── */
+.cust-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(320px,1fr));gap:16px}
+
+.cust-card{
+  background:var(--white);border-radius:var(--r);padding:18px;
+  box-shadow:var(--shadow);border:2px solid var(--border);
+  cursor:pointer;transition:all 0.22s;position:relative;overflow:hidden;
+}
+.cust-card::after{
+  content:'';position:absolute;top:0;left:0;right:0;height:4px;
+  background:linear-gradient(90deg,var(--sun),var(--peach));
+}
+.cust-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--honey)}
+
+.card-top{display:flex;align-items:flex-start;gap:12px;margin-bottom:12px}
+.avatar{
+  width:46px;height:46px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sun),var(--peach));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Nunito',sans-serif;font-size:1.2rem;font-weight:900;
+  color:var(--brown);flex-shrink:0;
+  box-shadow:0 3px 8px rgba(255,193,0,0.3);
+}
+.card-name{font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:800;color:var(--brown)}
+.card-meta{font-size:0.78rem;color:var(--soft);margin-top:2px}
+
+.deal-badge{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:700;
+  margin-top:4px;
+}
+.deal-badge.yes{background:#E8FFE8;color:#2D8C3C;border:1.5px solid #B8E8B8}
+.deal-badge.no{background:#FFE8E8;color:#CC4444;border:1.5px solid #FFB8B8}
+.deal-badge.remind-due{background:#FFF3E0;color:#E65100;border:1.5px solid #FFCC80;animation:pulse 2s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:0.7}}
+
+.bmi-chip{
+  display:inline-flex;align-items:center;gap:4px;
+  padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:700;
+  margin-top:4px;margin-left:4px;
+}
+.bmi-under{background:#EEF6FF;color:#2255AA;border:1.5px solid #AACCFF}
+.bmi-normal{background:#E8FFE8;color:#2D8C3C;border:1.5px solid #B8E8B8}
+.bmi-over{background:#FFF4E0;color:#CC6600;border:1.5px solid #FFCC88}
+.bmi-obese{background:#FFE8E8;color:#CC4444;border:1.5px solid #FFB8B8}
+
+.card-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:10px}
+.ctag{font-size:0.72rem;padding:3px 9px;border-radius:10px;font-weight:600}
+
+.card-summary{font-size:0.81rem;color:var(--mid);line-height:1.5;
+  display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.card-foot{
+  display:flex;align-items:center;justify-content:space-between;
+  margin-top:12px;padding-top:10px;border-top:2px dashed var(--border);
+  font-size:0.76rem;color:var(--soft);
+}
+.card-acts{display:flex;gap:6px}
+.ibtn{
+  background:rgba(255,217,61,0.15);border:none;border-radius:10px;
+  padding:5px 11px;cursor:pointer;font-size:0.78rem;color:var(--brown);
+  font-weight:700;transition:all 0.15s;font-family:'Noto Sans TC',sans-serif;
+}
+.ibtn:hover{background:var(--sun);color:var(--brown)}
+.ibtn.del:hover{background:#FFE0E0;color:var(--coral)}
+
+/* ── EMPTY ── */
+.empty{text-align:center;padding:60px 20px;color:var(--soft);grid-column:1/-1}
+.empty-icon{font-size:3.5rem;margin-bottom:14px}
+
+/* ── REMINDER PANEL ── */
+.remind-panel{
+  background:linear-gradient(135deg,#FFF8DC,#FFEECC);
+  border-radius:var(--r);padding:20px;margin-bottom:18px;
+  border:2px solid var(--border);box-shadow:var(--shadow);
+}
+.remind-panel h3{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:800;color:var(--brown);margin-bottom:14px}
+.remind-list{display:flex;flex-direction:column;gap:10px}
+.remind-item{
+  background:var(--white);border-radius:var(--r-sm);padding:14px 16px;
+  display:flex;align-items:center;gap:12px;
+  border:2px solid var(--border);
+  transition:all 0.2s;cursor:pointer;
+}
+.remind-item:hover{border-color:var(--honey);box-shadow:0 2px 8px rgba(255,193,0,0.15)}
+.remind-item.overdue{border-color:var(--coral);background:#FFF8F8}
+.remind-item.today{border-color:var(--green);background:#F8FFF8}
+.remind-item.upcoming{border-color:var(--peach);background:#FFFAF5}
+.remind-avatar{
+  width:40px;height:40px;border-radius:50%;
+  background:linear-gradient(135deg,var(--sun),var(--peach));
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:var(--brown);
+  flex-shrink:0;
+}
+.remind-info{flex:1;min-width:0}
+.remind-name{font-weight:700;font-size:0.9rem;color:var(--brown)}
+.remind-desc{font-size:0.78rem;color:var(--mid);margin-top:2px}
+.remind-date{font-size:0.8rem;font-weight:700;white-space:nowrap}
+.remind-date.overdue{color:var(--coral)}
+.remind-date.today{color:var(--green)}
+.remind-date.upcoming{color:var(--peach)}
+.remind-item.done{
+  opacity:0.42;background:#F8F8F8;border-color:#E8E8E8;
+  text-decoration:none;filter:grayscale(0.4);
+}
+.remind-item.done .remind-name{color:var(--soft)}
+.remind-done-btn{
+  background:none;border:2px solid var(--border);
+  border-radius:20px;padding:5px 12px;
+  font-size:0.75rem;font-weight:800;cursor:pointer;
+  color:var(--soft);white-space:nowrap;
+  font-family:'Noto Sans TC',sans-serif;
+  transition:all 0.18s;flex-shrink:0;
+}
+.remind-done-btn:hover{background:var(--green);border-color:var(--green);color:white}
+.remind-done-btn.is-done{
+  background:#E8FFE8;border-color:#B8E8B8;color:#2D8C3C;
+}
+.remind-done-btn.is-done:hover{background:#FFE8E8;border-color:#FFB8B8;color:var(--coral)}
+.remind-tabs{display:flex;gap:8px;margin-bottom:14px}
+.remind-tab-btn{
+  padding:6px 16px;border-radius:20px;border:2px solid var(--border);
+  background:var(--white);font-size:0.82rem;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans TC',sans-serif;
+  color:var(--soft);transition:all 0.18s;
+}
+.remind-tab-btn.active{background:var(--sun);border-color:var(--honey);color:var(--brown)}
+.remind-done-strip{
+  display:flex;align-items:center;gap:8px;
+  padding:10px 14px;border-radius:var(--r-sm);
+  background:#F5F5F5;border:2px dashed #E0E0E0;
+  font-size:0.78rem;color:#AAAAAA;margin-top:6px;
+}
+.remind-empty{text-align:center;padding:30px;color:var(--soft);font-size:0.88rem}
+
+/* ── ANALYSIS ── */
+.analysis-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:14px;margin-bottom:20px}
+.stat-card{
+  background:var(--white);border-radius:var(--r);padding:18px;
+  box-shadow:var(--shadow);border:2px solid var(--border);text-align:center;
+}
+.stat-num{font-family:'Nunito',sans-serif;font-size:2rem;font-weight:900;color:var(--deep)}
+.stat-label{font-size:0.8rem;color:var(--soft);margin-top:4px}
+.stat-sub{font-size:0.75rem;color:var(--mid);margin-top:2px}
+
+.analysis-section{
+  background:var(--white);border-radius:var(--r);padding:20px;
+  box-shadow:var(--shadow);border:2px solid var(--border);margin-bottom:16px;
+}
+.analysis-title{font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:800;color:var(--brown);margin-bottom:14px;display:flex;align-items:center;gap:6px}
+.bar-row{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+.bar-label{font-size:0.8rem;color:var(--mid);width:120px;flex-shrink:0;text-align:right}
+.bar-wrap{flex:1;background:#FFF3CC;border-radius:10px;height:20px;overflow:hidden}
+.bar-fill{height:100%;border-radius:10px;background:linear-gradient(90deg,var(--sun),var(--peach));transition:width 0.8s ease;display:flex;align-items:center;justify-content:flex-end;padding-right:6px}
+.bar-pct{font-size:0.7rem;font-weight:700;color:var(--brown)}
+.insight-list{display:flex;flex-direction:column;gap:8px}
+.insight-item{
+  display:flex;align-items:flex-start;gap:10px;
+  padding:10px 12px;background:var(--cream);border-radius:var(--r-sm);
+  font-size:0.83rem;color:var(--brown);line-height:1.5;
+}
+.insight-icon{font-size:1.1rem;flex-shrink:0}
+
+/* ── MODAL ── */
+.overlay{display:none;position:fixed;inset:0;background:rgba(61,43,31,0.5);z-index:200;
+  align-items:flex-start;justify-content:center;padding:16px;overflow-y:auto}
+.overlay.open{display:flex}
+.modal{
+  background:var(--white);border-radius:24px;width:100%;max-width:700px;
+  margin:auto;overflow:hidden;box-shadow:0 20px 60px rgba(61,43,31,0.22);
+}
+.modal-hd{
+  background:linear-gradient(135deg,var(--sun),var(--peach));
+  padding:18px 22px;display:flex;align-items:center;justify-content:space-between;
+}
+.modal-hd-title{font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:800;color:var(--brown)}
+.mcls{
+  background:rgba(255,255,255,0.35);border:none;color:var(--brown);
+  width:32px;height:32px;border-radius:50%;cursor:pointer;font-size:1rem;
+  display:flex;align-items:center;justify-content:center;transition:background 0.15s;
+}
+.mcls:hover{background:rgba(255,255,255,0.55)}
+.modal-body{padding:22px;max-height:76vh;overflow-y:auto}
+.modal-ft{
+  padding:14px 22px;border-top:2px dashed var(--border);
+  display:flex;gap:10px;justify-content:flex-end;background:var(--cream);
+}
+.btn-cancel{
+  padding:10px 22px;border:2px solid var(--border);border-radius:30px;
+  background:var(--white);color:var(--mid);font-size:0.88rem;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all 0.15s;
+}
+.btn-cancel:hover{border-color:var(--honey)}
+.btn-save{
+  padding:10px 24px;border:none;border-radius:30px;
+  background:linear-gradient(135deg,var(--honey),var(--peach));color:var(--brown);
+  font-size:0.88rem;font-weight:800;cursor:pointer;
+  font-family:'Noto Sans TC',sans-serif;transition:all 0.2s;
+  box-shadow:0 3px 10px rgba(255,193,0,0.35);
+}
+.btn-save:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(255,193,0,0.4)}
+
+/* ── FORM ── */
+.fsec{margin-bottom:20px;padding-bottom:20px;border-bottom:2px dashed var(--border)}
+.fsec:last-child{border-bottom:none;margin-bottom:0}
+.fsec-title{
+  font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:800;
+  color:var(--deep);margin-bottom:12px;display:flex;align-items:center;gap:6px;
+  letter-spacing:0.03em;
+}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:10px}
+.frow.t3{grid-template-columns:1fr 1fr 1fr}
+.frow.t4{grid-template-columns:1fr 1fr 1fr 1fr}
+.frow.s1{grid-template-columns:1fr}
+.fgrp{display:flex;flex-direction:column;gap:4px}
+.flbl{font-size:0.78rem;font-weight:700;color:var(--mid)}
+.finp,.fsel,.ftxt{
+  border:2px solid var(--border);border-radius:var(--r-sm);
+  padding:9px 12px;font-size:0.88rem;font-family:'Noto Sans TC',sans-serif;
+  color:var(--brown);background:var(--cream);transition:all 0.2s;
+}
+.finp:focus,.fsel:focus,.ftxt:focus{outline:none;border-color:var(--honey);background:var(--white);box-shadow:0 0 0 3px rgba(255,193,0,0.12)}
+.ftxt{min-height:70px;resize:vertical;line-height:1.5}
+.finp[readonly]{background:#FFF8E0;color:var(--mid);cursor:default}
+
+/* BMI display */
+.bmi-display{
+  background:linear-gradient(135deg,#FFF8DC,#FFEECC);
+  border:2px solid var(--border);border-radius:var(--r-sm);
+  padding:9px 12px;font-size:0.88rem;font-weight:700;
+  min-height:42px;display:flex;align-items:center;gap:8px;
+  transition:all 0.3s;
+}
+.bmi-val{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900}
+
+/* Deal section */
+.deal-toggle{display:flex;gap:10px}
+.deal-opt{
+  flex:1;padding:10px;text-align:center;border-radius:var(--r-sm);
+  border:2px solid var(--border);cursor:pointer;font-weight:700;font-size:0.85rem;
+  transition:all 0.18s;user-select:none;
+}
+.deal-opt.yes-opt{color:#2D8C3C}
+.deal-opt.yes-opt.selected{background:#E8FFE8;border-color:#6BCB77;color:#1A6B25}
+.deal-opt.no-opt{color:#CC4444}
+.deal-opt.no-opt.selected{background:#FFE8E8;border-color:var(--coral);color:#AA1111}
+.deal-opt:not(.selected):hover{border-color:var(--honey);background:var(--cream)}
+
+/* Product tags input */
+.prod-tags{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px;min-height:30px}
+.prod-tag{
+  display:flex;align-items:center;gap:5px;
+  background:linear-gradient(135deg,#FFF8DC,var(--sun));
+  border:1.5px solid var(--honey);border-radius:20px;
+  padding:4px 10px;font-size:0.78rem;font-weight:700;color:var(--brown);
+}
+.prod-tag-del{background:none;border:none;cursor:pointer;color:var(--mid);font-size:0.9rem;padding:0;line-height:1;transition:color 0.15s}
+.prod-tag-del:hover{color:var(--coral)}
+.prod-input-wrap{display:flex;gap:8px}
+.prod-add-btn{
+  background:var(--sun);border:none;border-radius:var(--r-sm);
+  padding:9px 14px;font-size:0.85rem;font-weight:700;cursor:pointer;
+  color:var(--brown);font-family:'Noto Sans TC',sans-serif;white-space:nowrap;
+  transition:all 0.15s;
+}
+.prod-add-btn:hover{background:var(--honey)}
+
+.picker-cat-tabs{display:flex;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.picker-cat-tab{padding:7px 16px;border-radius:20px;border:2px solid var(--border);background:var(--white);font-size:0.85rem;font-weight:700;cursor:pointer;font-family:'Noto Sans TC',sans-serif;color:var(--soft);transition:all 0.18s}
+.picker-cat-tab.active{background:var(--sun);border-color:var(--honey);color:var(--brown)}
+.picker-list{display:flex;flex-direction:column;gap:10px}
+.picker-item{background:var(--cream);border-radius:var(--r-sm);padding:12px 14px;border:2px solid var(--border);cursor:pointer;transition:all 0.15s}
+.picker-item:hover{border-color:var(--honey);box-shadow:0 2px 8px rgba(255,193,0,0.15)}
+.picker-item.selected{background:#E8FFE8;border-color:#B8E8B8}
+.picker-item-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:4px;flex-wrap:wrap}
+.picker-item-name{font-family:'Nunito',sans-serif;font-size:0.95rem;font-weight:800;color:var(--brown);display:flex;align-items:center;gap:6px}
+.picker-item-check{width:20px;height:20px;border-radius:50%;border:2px solid var(--border);display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.75rem;color:transparent;transition:all 0.15s;background:var(--white)}
+.picker-item.selected .picker-item-check{background:var(--green);border-color:var(--green);color:white}
+.picker-item-price{font-size:0.8rem;font-weight:700;color:var(--mid);background:rgba(255,255,255,0.7);padding:2px 10px;border-radius:10px;white-space:nowrap}
+.picker-item-tags{display:flex;flex-wrap:wrap;gap:5px}
+.picker-item-tag{font-size:0.68rem;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,0.8);color:var(--mid);font-weight:600}
+.picker-inactive-note{font-size:0.7rem;color:var(--coral);font-weight:700;margin-top:4px}
+.picker-empty{text-align:center;padding:30px;color:var(--soft);font-size:0.88rem}
+.overlay.overlay-top{z-index:300}
+
+/* Concern checkboxes */
+.cgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:5px}
+.cchk{
+  display:flex;align-items:center;gap:6px;padding:6px 10px;
+  border-radius:10px;cursor:pointer;border:1.5px solid transparent;
+  font-size:0.78rem;color:var(--mid);user-select:none;transition:all 0.15s;
+}
+.cchk input{display:none}
+.cchk.skin{border-color:#FFD6EB}.cchk.skin:hover,.cchk.skin.checked{background:#FFF0F7;border-color:var(--pink);color:var(--pink);font-weight:700}
+.cchk.fat{border-color:#FFE0C0}.cchk.fat:hover,.cchk.fat.checked{background:#FFF4E8;border-color:var(--peach);color:var(--peach);font-weight:700}
+.cchk.inner{border-color:#D8D4FF}.cchk.inner:hover,.cchk.inner.checked{background:#F3F0FF;border-color:var(--purple);color:var(--purple);font-weight:700}
+.cchk.female{border-color:#FFD6EB}.cchk.female:hover,.cchk.female.checked{background:#FFF0F5;border-color:#FF85A1;color:#FF85A1;font-weight:700}
+.cchk.extra{border-color:#C8EEFF}.cchk.extra:hover,.cchk.extra.checked{background:#EEF6FF;border-color:var(--blue);color:var(--blue);font-weight:700}
+.cchk-lbl{
+  font-size:0.75rem;font-weight:800;margin:8px 0 5px;
+  padding:3px 10px;border-radius:8px;display:inline-block;
+}
+.cchk-lbl.skin{background:#FFF0F7;color:var(--pink)}
+.cchk-lbl.fat{background:#FFF4E8;color:var(--peach)}
+.cchk-lbl.inner{background:#F3F0FF;color:var(--purple)}
+.cchk-lbl.female{background:#FFF0F5;color:#FF85A1}
+.cchk-lbl.extra{background:#EEF6FF;color:var(--blue)}
+
+/* DETAIL */
+.detail-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(120px,1fr));gap:8px;margin-bottom:14px}
+.ditem{background:var(--cream);border-radius:10px;padding:8px 12px;border:1.5px solid var(--border)}
+.ditem-lbl{font-size:0.7rem;color:var(--soft);margin-bottom:2px}
+.ditem-val{font-size:0.88rem;font-weight:700;color:var(--brown)}
+.drow{margin-bottom:8px}
+.drow-lbl{font-size:0.75rem;color:var(--soft);margin-bottom:2px}
+.drow-val{font-size:0.85rem;color:var(--brown);line-height:1.6}
+
+/* TOAST */
+.toast{
+  position:fixed;bottom:24px;left:50%;
+  transform:translateX(-50%) translateY(80px);
+  background:var(--brown);color:var(--sun);
+  padding:12px 24px;border-radius:30px;font-size:0.88rem;font-weight:700;
+  z-index:999;transition:transform 0.3s cubic-bezier(0.34,1.56,0.64,1);
+  white-space:nowrap;box-shadow:0 4px 16px rgba(61,43,31,0.3);
+  font-family:'Nunito',sans-serif;
+}
+.toast.show{transform:translateX(-50%) translateY(0)}
+
+/* NOTIFICATION BELL */
+.notif-btn{
+  background:rgba(255,255,255,0.4);border:none;border-radius:50%;
+  width:36px;height:36px;cursor:pointer;font-size:1.1rem;
+  display:flex;align-items:center;justify-content:center;position:relative;
+  transition:background 0.15s;
+}
+.notif-btn:hover{background:rgba(255,255,255,0.6)}
+.notif-dot{
+  position:absolute;top:4px;right:4px;width:10px;height:10px;
+  background:var(--coral);border-radius:50%;border:2px solid var(--white);
+  display:none;
+}
+.notif-dot.show{display:block}
+
+mark{background:#FFE166;border-radius:3px;padding:0 2px}
+
+/* ── 手機底部導覽 ── */
+.mob-nav{
+  display:none;
+  position:fixed;bottom:0;left:0;right:0;
+  background:var(--white);
+  border-top:2px solid var(--border);
+  z-index:99;
+  box-shadow:0 -4px 20px rgba(255,180,0,0.14);
+  padding-bottom:env(safe-area-inset-bottom,0px);
+}
+.mob-nav-inner{display:flex;align-items:stretch;flex-wrap:nowrap}
+.mob-nav-btn{
+  flex:1 1 0;min-width:0;overflow:hidden;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  gap:3px;padding:8px 2px 10px;cursor:pointer;border:none;background:none;
+  font-family:'Noto Sans TC',sans-serif;color:var(--soft);
+  font-size:0.58rem;font-weight:700;transition:color 0.15s;
+  -webkit-tap-highlight-color:transparent;position:relative;
+  white-space:nowrap;text-overflow:ellipsis;
+}
+.mob-nav-btn.active{color:var(--deep)}
+.mob-nav-icon{
+  font-size:1.25rem;padding:3px 8px;border-radius:12px;
+  transition:background 0.15s;line-height:1.2;
+}
+.mob-nav-btn.active .mob-nav-icon{background:rgba(255,217,61,0.18)}
+.mob-nav-dot{
+  width:7px;height:7px;border-radius:50%;background:var(--coral);
+  position:absolute;top:7px;left:calc(50% + 6px);display:none;
+}
+.mob-nav-dot.show{display:block}
+
+@media(max-width:640px){
+  body{overflow-x:hidden}
+  .header-inner{gap:8px}
+  .logo{font-size:1.1rem}
+  .header-stats{display:none}
+  .nav-tabs{display:none}
+  .mob-nav{display:block}
+  .main{padding:14px 12px 76px}
+  .cust-grid{grid-template-columns:1fr;gap:10px}
+  .frow,.frow.t3,.frow.t4{grid-template-columns:1fr}
+  .modal-body{max-height:68vh}
+  .analysis-grid{grid-template-columns:repeat(2,1fr)}
+  .search-card{padding:12px 14px;margin-bottom:12px}
+  .search-hint{display:none}
+  .filter-row{
+    flex-wrap:nowrap;overflow-x:auto;-webkit-overflow-scrolling:touch;
+    margin:8px -14px 0;padding:0 14px 4px;scrollbar-width:none;
+  }
+  .filter-row::-webkit-scrollbar{display:none}
+  .ftag{white-space:nowrap;flex-shrink:0}
+  .cust-card{padding:14px}
+  .results-bar{margin-bottom:10px}
+}
+
+/* ── DELETE CONFIRM ── */
+.del-overlay{display:none;position:fixed;inset:0;background:rgba(61,43,31,0.5);z-index:500;align-items:center;justify-content:center;padding:20px}
+.del-overlay.open{display:flex}
+.del-box{
+  background:var(--white);border-radius:20px;padding:28px 26px;
+  max-width:340px;width:100%;text-align:center;
+  box-shadow:0 16px 48px rgba(61,43,31,0.25);
+  border:2px solid var(--border);
+}
+.del-icon{font-size:2.8rem;margin-bottom:10px}
+.del-title{font-family:'Nunito',sans-serif;font-size:1.1rem;font-weight:900;color:var(--brown);margin-bottom:6px}
+.del-name{
+  display:inline-block;background:var(--cream);border:2px solid var(--border);
+  border-radius:10px;padding:4px 14px;font-weight:700;color:var(--deep);
+  margin:6px 0 14px;font-size:0.95rem;
+}
+.del-desc{font-size:0.82rem;color:var(--soft);margin-bottom:20px;line-height:1.5}
+.del-btns{display:flex;gap:10px;justify-content:center}
+.del-cancel{
+  padding:10px 22px;border:2px solid var(--border);border-radius:30px;
+  background:var(--white);color:var(--mid);font-size:0.88rem;font-weight:700;
+  cursor:pointer;font-family:'Noto Sans TC',sans-serif;transition:all 0.15s;
+}
+.del-cancel:hover{border-color:var(--honey);background:var(--cream)}
+.del-confirm{
+  padding:10px 22px;border:none;border-radius:30px;
+  background:linear-gradient(135deg,#FF6B6B,#FF4444);color:white;
+  font-size:0.88rem;font-weight:800;cursor:pointer;
+  font-family:'Noto Sans TC',sans-serif;transition:all 0.2s;
+  box-shadow:0 3px 10px rgba(255,68,68,0.3);
+}
+.del-confirm:hover{transform:translateY(-2px);box-shadow:0 6px 16px rgba(255,68,68,0.4)}
+
+@media(max-width:640px){
+  .header-stats .stat-item:nth-child(3){display:none}
+}
+
+/* ── BACKUP TAB ── */
+.backup-hero{
+  text-align:center;padding:28px 20px 20px;
+  background:linear-gradient(135deg,#FFF8DC,#FFEECC);
+  border-radius:var(--r);border:2px solid var(--border);
+  margin-bottom:18px;box-shadow:var(--shadow);
+}
+.backup-hero-icon{font-size:2.4rem;margin-bottom:8px}
+.backup-hero-title{font-family:'Nunito',sans-serif;font-size:1.15rem;font-weight:900;color:var(--brown);margin-bottom:6px}
+.backup-hero-sub{font-size:0.85rem;color:var(--soft)}
+
+.backup-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:14px;margin-bottom:20px}
+.deploy-card{
+  background:var(--white);border-radius:var(--r);padding:20px;
+  border:2px solid var(--border);box-shadow:var(--shadow);
+  position:relative;display:flex;flex-direction:column;gap:8px;
+}
+.deploy-card.recommended{border-color:var(--honey);background:linear-gradient(160deg,#FFFDF0,#FFFBE0)}
+.deploy-badge{
+  position:absolute;top:-1px;right:14px;
+  background:linear-gradient(135deg,var(--honey),var(--peach));
+  color:var(--brown);font-size:0.72rem;font-weight:800;
+  padding:3px 10px;border-radius:0 0 10px 10px;
+  font-family:'Nunito',sans-serif;
+}
+.deploy-icon{font-size:1.8rem}
+.deploy-name{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:var(--brown)}
+.deploy-desc{font-size:0.8rem;color:var(--soft);line-height:1.5}
+.deploy-steps{padding-left:18px;margin:6px 0;display:flex;flex-direction:column;gap:5px}
+.deploy-steps li{font-size:0.8rem;color:var(--mid);line-height:1.5}
+.deploy-steps code{background:#FFF3CC;border-radius:5px;padding:1px 5px;font-size:0.75rem;color:var(--deep);font-family:monospace}
+.deploy-btn{
+  display:block;text-align:center;margin-top:auto;padding:9px 16px;
+  border-radius:30px;font-size:0.85rem;font-weight:800;
+  text-decoration:none;transition:all 0.2s;
+  background:linear-gradient(135deg,var(--honey),var(--peach));color:var(--brown);
+  font-family:'Nunito',sans-serif;border:none;cursor:pointer;
+  box-shadow:0 3px 8px rgba(255,193,0,0.25);
+}
+.deploy-btn:hover{transform:translateY(-2px);box-shadow:0 6px 14px rgba(255,193,0,0.35)}
+.deploy-btn.secondary{background:var(--white);border:2px solid var(--border);color:var(--mid)}
+.deploy-btn.secondary:hover{border-color:var(--honey);color:var(--brown)}
+
+.backup-section{
+  background:var(--white);border-radius:var(--r);padding:22px;
+  border:2px solid var(--border);box-shadow:var(--shadow);
+}
+.backup-section-title{font-family:'Nunito',sans-serif;font-size:1rem;font-weight:900;color:var(--brown);margin-bottom:4px}
+.backup-section-sub{font-size:0.82rem;color:var(--soft);margin-bottom:18px}
+
+.backup-actions{display:grid;grid-template-columns:repeat(auto-fill,minmax(200px,1fr));gap:12px;margin-bottom:20px}
+.backup-action-card{
+  background:var(--cream);border-radius:var(--r-sm);padding:16px;
+  border:2px solid var(--border);display:flex;flex-direction:column;gap:6px;
+  transition:border-color 0.2s;
+}
+.backup-action-card:hover{border-color:var(--honey)}
+.bac-icon{font-size:1.6rem}
+.bac-title{font-family:'Nunito',sans-serif;font-size:0.9rem;font-weight:800;color:var(--brown)}
+.bac-desc{font-size:0.75rem;color:var(--soft);line-height:1.5}
+.bac-btn{
+  margin-top:auto;padding:8px 14px;border:none;border-radius:20px;
+  font-size:0.8rem;font-weight:800;cursor:pointer;font-family:'Noto Sans TC',sans-serif;
+  transition:all 0.18s;
+}
+.bac-btn.export{background:linear-gradient(135deg,var(--green),#3DA84A);color:white}
+.bac-btn.export:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(107,203,119,0.4)}
+.bac-btn.import{background:linear-gradient(135deg,var(--blue),#2255CC);color:white}
+.bac-btn.import:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(77,150,255,0.4)}
+.bac-btn.copy{background:linear-gradient(135deg,var(--purple),#8833CC);color:white}
+.bac-btn.copy:hover{transform:translateY(-1px);box-shadow:0 4px 10px rgba(199,125,255,0.4)}
+.bac-textarea{
+  width:100%;min-height:65px;border:2px solid var(--border);border-radius:10px;
+  padding:8px 10px;font-size:0.75rem;font-family:monospace;color:var(--mid);
+  background:var(--white);resize:vertical;margin-top:4px;
+}
+.bac-textarea:focus{outline:none;border-color:var(--blue)}
+
+.backup-tip{
+  background:linear-gradient(135deg,#FFF8DC,#FFEECC);
+  border-radius:var(--r-sm);padding:16px;border:2px solid var(--border);
+  margin-bottom:14px;
+}
+.backup-tip-title{font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:900;color:var(--brown);margin-bottom:10px}
+.backup-tip-items{display:flex;flex-direction:column;gap:7px}
+.tip-item{font-size:0.8rem;color:var(--mid);line-height:1.5;padding-left:4px}
+.tip-item strong{color:var(--deep)}
+
+.backup-status{
+  text-align:center;padding:10px;border-radius:10px;
+  font-size:0.85rem;font-weight:700;
+  display:none;margin-top:10px;
+}
+.backup-status.ok{display:block;background:#E8FFE8;color:#2D8C3C;border:2px solid #B8E8B8}
+.backup-status.err{display:block;background:#FFE8E8;color:#CC4444;border:2px solid #FFB8B8}
+
+/* ── SPLASH SCREEN ── */
+#splash{
+  position:fixed;inset:0;z-index:9999;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  background:linear-gradient(160deg,#FFF8C0 0%,#FFE87A 45%,#FFD93D 100%);
+  transition:opacity 0.7s ease, transform 0.7s ease;
+  overflow:hidden;
+}
+#splash.hide{opacity:0;transform:scale(1.04);pointer-events:none}
+
+/* ripple rings behind duck */
+.splash-rings{position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:340px;height:170px}
+.ring{
+  position:absolute;bottom:0;left:50%;transform:translateX(-50%);
+  border-radius:50%;border:3px solid rgba(255,180,0,0.25);
+  animation:ringOut 2.4s ease-out infinite;
+}
+.ring:nth-child(1){width:80px;height:40px;animation-delay:0s}
+.ring:nth-child(2){width:150px;height:60px;animation-delay:0.5s}
+.ring:nth-child(3){width:240px;height:90px;animation-delay:1s}
+.ring:nth-child(4){width:340px;height:120px;animation-delay:1.5s}
+@keyframes ringOut{
+  0%{opacity:0.7;transform:translateX(-50%) scaleX(1)}
+  100%{opacity:0;transform:translateX(-50%) scaleX(1.15)}
+}
+
+/* duck SVG */
+.duck-wrap{
+  position:relative;z-index:2;
+  animation:duckBob 1.6s ease-in-out infinite;
+  margin-bottom:0px;
+  filter:drop-shadow(0 12px 20px rgba(200,140,0,0.25));
+}
+@keyframes duckBob{
+  0%,100%{transform:translateY(0) rotate(-2deg)}
+  50%{transform:translateY(-14px) rotate(2deg)}
+}
+.duck-svg{width:130px;height:auto}
+
+/* water surface */
+.water{
+  position:relative;z-index:1;
+  width:260px;height:18px;
+  background:linear-gradient(90deg,#FFE066,#FFD93D,#FFE066);
+  border-radius:50%;
+  margin-top:-10px;
+  animation:waterWave 2s ease-in-out infinite alternate;
+  opacity:0.55;
+}
+@keyframes waterWave{
+  from{transform:scaleX(1)}
+  to{transform:scaleX(1.08)}
+}
+
+/* text */
+.splash-quote{
+  margin-top:36px;
+  text-align:center;
+  padding:0 24px;
+  animation:fadeUp 0.8s ease 0.3s both;
+}
+@keyframes fadeUp{
+  from{opacity:0;transform:translateY(16px)}
+  to{opacity:1;transform:translateY(0)}
+}
+.splash-greeting{
+  font-family:'Nunito',sans-serif;font-size:1rem;font-weight:700;
+  color:rgba(61,43,31,0.6);letter-spacing:0.04em;margin-bottom:8px;
+}
+.splash-motivate{
+  font-family:'Noto Sans TC',sans-serif;font-size:1.25rem;font-weight:700;
+  color:var(--brown);line-height:1.55;max-width:280px;margin:0 auto;
+}
+.splash-motivate em{
+  font-style:normal;color:var(--deep);
+  background:rgba(255,255,255,0.55);
+  border-radius:8px;padding:0 4px;
+}
+.splash-sub{
+  margin-top:10px;font-size:0.82rem;color:rgba(61,43,31,0.5);
+  font-family:'Noto Sans TC',sans-serif;
+}
+/* date pill */
+.splash-date{
+  margin-top:24px;
+  background:rgba(255,255,255,0.5);
+  border:2px solid rgba(255,200,0,0.4);
+  border-radius:30px;padding:6px 20px;
+  font-family:'Nunito',sans-serif;font-size:0.88rem;font-weight:800;
+  color:var(--brown);
+  animation:fadeUp 0.8s ease 0.6s both;
+}
+/* tap hint */
+.splash-tap{
+  position:absolute;bottom:36px;
+  font-size:0.78rem;color:rgba(61,43,31,0.4);
+  font-family:'Noto Sans TC',sans-serif;
+  animation:blink 1.6s ease-in-out infinite;
+}
+@keyframes blink{0%,100%{opacity:0.4}50%{opacity:1}}
+
+/* confetti dots */
+.confetti{position:absolute;width:10px;height:10px;border-radius:50%;opacity:0;animation:fall linear infinite}
+@keyframes fall{
+  0%{opacity:1;transform:translateY(-20px) rotate(0deg)}
+  100%{opacity:0;transform:translateY(110vh) rotate(720deg)}
+}
+.prod-cat-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:16px}
+.prod-cat-card{background:var(--white);border-radius:var(--r);padding:22px;box-shadow:var(--shadow);border:2px solid var(--border);cursor:pointer;transition:all 0.22s;position:relative;overflow:hidden;text-align:center}
+.prod-cat-card::after{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:linear-gradient(90deg,var(--sun),var(--peach))}
+.prod-cat-card:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg);border-color:var(--honey)}
+.prod-cat-icon{font-size:2.4rem;margin-bottom:8px}
+.prod-cat-name{font-family:'Nunito',sans-serif;font-size:1.05rem;font-weight:800;color:var(--brown);margin-bottom:6px}
+.prod-cat-count{font-size:0.78rem;color:var(--soft)}
+.prod-cat-sub{font-size:0.74rem;color:var(--mid);margin-top:6px;display:flex;justify-content:center;gap:10px}
+.prod-cat-sub span{display:flex;align-items:center;gap:3px}
+.prod-list{display:flex;flex-direction:column;gap:10px}
+.prod-list-item{background:var(--cream);border-radius:var(--r-sm);padding:14px 16px;border:2px solid var(--border)}
+.prod-list-item.inactive{opacity:0.55;background:#F7F7F7;border-color:#E8E8E8}
+.prod-item-top{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-bottom:6px;flex-wrap:wrap}
+.prod-item-name{font-family:'Nunito',sans-serif;font-size:0.98rem;font-weight:800;color:var(--brown)}
+.prod-item-price{font-size:0.82rem;font-weight:700;color:var(--mid);background:rgba(255,255,255,0.7);padding:2px 10px;border-radius:10px;white-space:nowrap}
+.prod-item-tags{display:flex;flex-wrap:wrap;gap:5px;margin-bottom:8px}
+.prod-item-tag{font-size:0.7rem;padding:2px 8px;border-radius:8px;background:rgba(255,255,255,0.8);color:var(--mid);font-weight:600}
+.prod-item-foot{display:flex;align-items:center;justify-content:space-between;gap:10px;flex-wrap:wrap}
+.prod-sold-badge{display:inline-flex;align-items:center;gap:4px;padding:3px 10px;border-radius:20px;font-size:0.75rem;font-weight:700;background:#E8FFE8;color:#2D8C3C;border:1.5px solid #B8E8B8}
+.prod-sold-badge.zero{background:#F5F5F5;color:#AAAAAA;border:1.5px solid #E0E0E0}
+.prod-status-toggle{display:flex;align-items:center;gap:6px;cursor:pointer;font-size:0.78rem;font-weight:700;color:var(--mid);background:var(--white);border:2px solid var(--border);padding:5px 12px;border-radius:20px;transition:all 0.15s;font-family:'Noto Sans TC',sans-serif}
+.prod-status-toggle:hover{border-color:var(--honey)}
+.prod-status-toggle.on{background:#E8FFE8;border-color:#B8E8B8;color:#2D8C3C}
+.prod-status-toggle.off{background:#FFE8E8;border-color:#FFB8B8;color:#CC4444}
+
+/* ── 生產 / 瘦身目標 ── */
+.birth-toggle{display:flex;gap:8px;margin-top:6px;flex-wrap:wrap;align-items:center}
+.birth-opt{display:flex;align-items:center;gap:5px;padding:6px 14px;border:2px solid var(--border);border-radius:20px;cursor:pointer;font-size:0.82rem;font-weight:700;color:var(--brown);background:#FFF8E8;transition:all 0.15s;user-select:none}
+.birth-opt:hover{border-color:var(--honey)}
+.birth-opt.selected{background:var(--sun);border-color:var(--deep)}
+.birth-opt input{display:none}
+.birth-detail{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-top:8px}
+.slim-parts-wrap{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+
+/* ── 已成交其他改善目標 ── */
+.extra-goal-grid{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.extra-goal-chk{display:flex;align-items:center;gap:5px;background:#F8F8F8;border:2px solid #E8E8E8;border-radius:20px;padding:6px 13px;cursor:pointer;font-size:0.8rem;font-weight:700;color:var(--brown);transition:all 0.15s;user-select:none}
+.extra-goal-chk:hover{border-color:var(--honey);background:#FFF3D0}
+.extra-goal-chk.checked{background:var(--sun);border-color:var(--deep)}
+.extra-goal-chk input{display:none}
+.extra-goal-note{margin-top:10px;width:100%;padding:9px 12px;border:2px solid var(--border);border-radius:var(--r-sm);font-size:0.85rem;font-family:'Noto Sans TC',sans-serif;resize:vertical;min-height:70px;background:var(--white);color:var(--brown)}
+.extra-goal-note:focus{outline:none;border-color:var(--honey)}
+
+/* ── 未成交諮詢 / 意向選擇器 ── */
+.nosale-picker-cat{margin-bottom:16px}
+.nosale-picker-cat-header{font-size:0.82rem;font-weight:800;margin-bottom:8px;display:flex;align-items:center;gap:6px}
+.nosale-picker-prods{display:flex;flex-wrap:wrap;gap:7px}
+.nosale-prod-chk{display:flex;align-items:center;gap:5px;background:#F8F8F8;border:2px solid #E8E8E8;border-radius:20px;padding:5px 13px;cursor:pointer;font-size:0.8rem;font-weight:700;color:var(--brown);transition:all 0.15s;user-select:none}
+.nosale-prod-chk:hover{border-color:var(--honey);background:#FFF3D0}
+.nosale-prod-chk.checked{background:var(--sun);border-color:var(--deep);color:var(--brown)}
+.nosale-prod-chk input{display:none}
+.nosale-section-box{background:#FFFBEC;border:2px solid var(--border);border-radius:var(--r-sm);padding:14px 16px;margin-top:4px}
+
+/* ── 售後關心改版 ── */
+.remind-presets{display:flex;flex-wrap:wrap;gap:8px;margin-top:8px}
+.remind-preset-chk{display:flex;align-items:center;gap:5px;background:#FFF8E8;border:2px solid var(--border);border-radius:20px;padding:6px 14px;cursor:pointer;font-size:0.8rem;font-weight:700;color:var(--brown);transition:all 0.15s;user-select:none}
+.remind-preset-chk:hover{border-color:var(--honey);background:#FFF3D0}
+.remind-preset-chk.checked{background:var(--sun);border-color:var(--deep);color:var(--brown)}
+.remind-preset-chk input{display:none}
+.care-track-wrap{display:flex;flex-wrap:wrap;gap:10px;margin-top:8px}
+.care-track-item{display:flex;align-items:center;gap:7px;font-size:0.85rem;font-weight:700;color:var(--brown);cursor:pointer;padding:9px 18px;background:#F5F3FF;border:2px solid #EDE9FE;border-radius:12px;transition:all 0.15s;user-select:none}
+.care-track-item:hover{border-color:#A78BFA;background:#EDE9FE}
+.care-track-item.checked{background:#7C3AED;border-color:#7C3AED;color:#fff}
+.care-track-item input{display:none}
+.care-note-txt{min-height:180px;resize:vertical;font-size:0.85rem;line-height:1.75}
+
+/* ── AI 智慧回訪 ── */
+.ai-hero{background:linear-gradient(135deg,#7C3AED 0%,#4F46E5 100%);border-radius:var(--r);padding:24px 20px 20px;margin-bottom:20px;text-align:center;color:#fff}
+.ai-hero-icon{font-size:3rem;margin-bottom:8px}
+.ai-hero-title{font-family:'Nunito',sans-serif;font-size:1.4rem;font-weight:900;margin-bottom:6px}
+.ai-hero-sub{font-size:0.85rem;opacity:0.9;line-height:1.5;margin-bottom:16px;max-width:500px;margin-left:auto;margin-right:auto}
+.ai-line-btn{background:#fff;color:#7C3AED;border:none;padding:10px 24px;border-radius:30px;font-size:0.9rem;font-weight:800;cursor:pointer;font-family:'Nunito',sans-serif;transition:all 0.2s;box-shadow:0 2px 12px rgba(0,0,0,0.15)}
+.ai-line-btn:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.2)}
+.ai-section-title{font-size:0.95rem;font-weight:800;color:var(--brown);margin:0 0 12px;display:flex;align-items:center;gap:8px}
+.ai-top-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:14px;margin-bottom:28px}
+.ai-card{background:var(--white);border-radius:var(--r);border:2px solid #EDE9FE;padding:16px;box-shadow:0 4px 16px rgba(124,58,237,0.08);position:relative;overflow:hidden;cursor:pointer;transition:all 0.2s}
+.ai-card:hover{transform:translateY(-2px);box-shadow:0 8px 24px rgba(124,58,237,0.15)}
+.ai-card.rank-1{border-color:#7C3AED;box-shadow:0 6px 24px rgba(124,58,237,0.18)}
+.ai-card.rank-2{border-color:#8B5CF6}
+.ai-card.rank-3{border-color:#A78BFA}
+.ai-rank-badge{position:absolute;top:12px;right:12px;width:30px;height:30px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:0.9rem;font-weight:900;font-family:'Nunito',sans-serif}
+.ai-rank-badge.r1{background:#7C3AED;color:#fff}
+.ai-rank-badge.r2{background:#8B5CF6;color:#fff}
+.ai-rank-badge.r3{background:#A78BFA;color:#fff}
+.ai-rank-badge.rn{background:#EDE9FE;color:#6D28D9}
+.ai-card-name{font-size:1.05rem;font-weight:800;color:var(--brown);margin-bottom:4px;padding-right:40px}
+.ai-card-meta{font-size:0.76rem;color:var(--soft);margin-bottom:10px}
+.ai-card-score{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.ai-score-bar-wrap{flex:1;background:#EDE9FE;border-radius:10px;height:7px;overflow:hidden}
+.ai-score-bar{height:100%;border-radius:10px;background:linear-gradient(90deg,#7C3AED,#4F46E5);transition:width 0.5s ease}
+.ai-score-num{font-size:0.76rem;font-weight:800;color:#7C3AED;white-space:nowrap}
+.ai-reasons{display:flex;flex-direction:column;gap:5px}
+.ai-reason{font-size:0.77rem;color:var(--mid);background:#F5F3FF;border-radius:8px;padding:5px 10px;line-height:1.45}
+.ai-contact{margin-top:10px;font-size:0.8rem;font-weight:700;color:#4F46E5}
+.ai-section-divider{margin:0 0 14px;padding-top:4px}
+.ai-full-list{background:var(--white);border-radius:var(--r);border:2px solid var(--border);overflow:hidden}
+.ai-list-item{display:flex;align-items:center;gap:12px;padding:12px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background 0.15s}
+.ai-list-item:last-child{border-bottom:none}
+.ai-list-item:hover{background:#F5F3FF}
+.ai-list-rank{min-width:26px;font-size:0.82rem;font-weight:800;color:var(--soft);font-family:'Nunito',sans-serif;text-align:center}
+.ai-list-name{font-size:0.88rem;font-weight:700;color:var(--brown)}
+.ai-list-reason{font-size:0.74rem;color:var(--soft);margin-top:2px}
+.ai-list-score{font-size:0.76rem;font-weight:800;color:#7C3AED;white-space:nowrap;margin-left:8px}
+.ai-empty{text-align:center;padding:48px 20px;color:var(--soft);font-size:0.9rem}
+.ai-deal-yes{font-size:0.68rem;color:#2D8C3C;font-weight:700;margin-left:5px}
+.ai-deal-no{font-size:0.68rem;color:#CC6600;font-weight:700;margin-left:5px}
+@media(max-width:600px){.ai-top-grid{grid-template-columns:1fr}}
+
+/* ── 產品目錄編輯 ── */
+.prod-add-new-btn{width:100%;padding:12px;border:2px dashed var(--honey);border-radius:var(--r-sm);background:var(--cream);color:var(--brown);font-weight:800;font-size:0.88rem;cursor:pointer;margin-bottom:14px;font-family:'Noto Sans TC',sans-serif;transition:all 0.15s}
+.prod-add-new-btn:hover{background:var(--border);border-color:var(--deep)}
+.prod-edit-form{background:var(--cream);border:2px solid var(--border);border-radius:var(--r-sm);padding:14px;margin-bottom:14px}
+.prod-edit-title{font-weight:800;font-size:0.9rem;color:var(--brown);margin-bottom:10px}
+.prod-edit-btn,.prod-del-btn{border:2px solid var(--border);background:var(--white);border-radius:20px;padding:5px 10px;font-size:0.82rem;cursor:pointer;transition:all 0.15s}
+.prod-edit-btn:hover{border-color:var(--honey)}
+.prod-del-btn:hover{border-color:#FFB8B8;background:#FFF3F3}
+
+/* ── 密碼鎖 ── */
+.pin-lock{position:fixed;inset:0;background:#2B2220;z-index:99999;display:flex;align-items:center;justify-content:center}
+.pin-lock.unlocked{display:none}
+.pin-box{background:#fff;border-radius:16px;padding:32px 28px;text-align:center;max-width:300px;width:90%;box-shadow:0 10px 40px rgba(0,0,0,0.3)}
+.pin-icon{font-size:2.5rem;margin-bottom:10px}
+.pin-title{font-weight:800;font-size:1.1rem;margin-bottom:16px;color:#3D2B1F;font-family:'Nunito',sans-serif}
+.pin-input{width:100%;padding:12px;border:2px solid #E8E8E8;border-radius:10px;font-size:1rem;text-align:center;margin-bottom:12px;box-sizing:border-box;font-family:'Noto Sans TC',sans-serif}
+.pin-btn{width:100%;padding:12px;border:none;border-radius:10px;background:#FFD93D;color:#3D2B1F;font-weight:800;font-size:1rem;cursor:pointer;font-family:'Nunito',sans-serif}
+.pin-err{color:#CC4444;font-size:0.85rem;margin-top:10px}
+.pin-forgot{margin-top:14px;font-size:0.8rem;color:var(--soft);cursor:pointer;text-decoration:underline}
+.pin-forgot:hover{color:var(--brown)}
+.pin-desc{font-size:0.82rem;color:var(--mid);margin-bottom:14px;line-height:1.5}
+.pin-btn:disabled{opacity:0.5;cursor:not-allowed}
+</style>
+</head>
+<body>
+
+<!-- ===== 密碼鎖（先擋在最上層，輸對密碼才看得到下面資料；內容由 renderPinLock() 動態產生） ===== -->
+<div id="pinLock" class="pin-lock">
+  <div class="pin-box" id="pinBox"></div>
+</div>
+
+<!-- ===== 修改密碼 MODAL ===== -->
+<div class="overlay" id="changePinModal">
+<div class="modal">
+  <div class="modal-hd">
+    <div class="modal-hd-title">🔑 修改密碼</div>
+    <button class="mcls" onclick="closeModal('changePinModal')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="fgrp" style="margin-bottom:10px"><label class="flbl">目前密碼</label><input type="password" class="finp" id="cp_old"></div>
+    <div class="fgrp" style="margin-bottom:10px"><label class="flbl">新密碼（至少4碼）</label><input type="password" class="finp" id="cp_new1"></div>
+    <div class="fgrp"><label class="flbl">再輸入一次新密碼</label><input type="password" class="finp" id="cp_new2"></div>
+    <div class="pin-err" id="cpErr" style="display:none;margin-top:8px"></div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal('changePinModal')">取消</button>
+    <button class="btn-save" onclick="submitChangePin()">儲存新密碼</button>
+  </div>
+</div>
+</div>
+
+<!-- ===== SPLASH SCREEN ===== -->
+<div id="splash" onclick="closeSplash()">
+
+  <!-- floating confetti -->
+  <div id="confettiWrap"></div>
+
+  <!-- ripple rings (water surface effect) -->
+  <div class="splash-rings">
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+    <div class="ring"></div>
+  </div>
+
+  <!-- Duck SVG (hand-drawn style) -->
+  <div class="duck-wrap">
+    <svg class="duck-svg" viewBox="0 0 200 180" xmlns="http://www.w3.org/2000/svg">
+      <!-- body -->
+      <ellipse cx="100" cy="130" rx="62" ry="46" fill="#FFD93D" stroke="#E6A800" stroke-width="3"/>
+      <!-- wing shading -->
+      <ellipse cx="108" cy="138" rx="38" ry="26" fill="#FFE566" opacity="0.6"/>
+      <!-- wing detail curve -->
+      <path d="M72 130 Q100 112 138 128" fill="none" stroke="#E6A800" stroke-width="2.5" stroke-linecap="round"/>
+      <!-- neck -->
+      <ellipse cx="148" cy="98" rx="22" ry="28" fill="#FFD93D" stroke="#E6A800" stroke-width="3"/>
+      <!-- head -->
+      <circle cx="152" cy="68" r="30" fill="#FFD93D" stroke="#E6A800" stroke-width="3"/>
+      <!-- eye white -->
+      <circle cx="164" cy="60" r="9" fill="white" stroke="#E6A800" stroke-width="2"/>
+      <!-- eye pupil -->
+      <circle cx="166" cy="60" r="5" fill="#3D2B1F"/>
+      <!-- eye shine -->
+      <circle cx="168" cy="57" r="2" fill="white"/>
+      <!-- beak -->
+      <ellipse cx="185" cy="70" rx="16" ry="8" fill="#FFB347" stroke="#E06000" stroke-width="2"/>
+      <!-- beak line -->
+      <line x1="170" y1="70" x2="200" y2="70" stroke="#E06000" stroke-width="1.5" stroke-linecap="round"/>
+      <!-- cheek blush -->
+      <ellipse cx="157" cy="72" rx="8" ry="5" fill="#FFB3B3" opacity="0.5"/>
+      <!-- tail feather -->
+      <path d="M42 118 Q20 100 28 130 Q36 118 48 122" fill="#FFCC00" stroke="#E6A800" stroke-width="2"/>
+      <!-- foot left -->
+      <path d="M82 170 Q76 176 68 174 M82 170 Q80 178 72 178 M82 170 Q86 178 78 180" stroke="#FFB347" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <!-- foot right -->
+      <path d="M118 170 Q112 176 104 174 M118 170 Q116 178 108 178 M118 170 Q122 178 114 180" stroke="#FFB347" stroke-width="3" stroke-linecap="round" fill="none"/>
+      <!-- little heart above head -->
+      <path d="M148 32 C148 28 143 26 143 30 C143 33 148 37 148 37 C148 37 153 33 153 30 C153 26 148 28 148 32Z" fill="#FF85A1" opacity="0.85"/>
+    </svg>
+  </div>
+
+  <!-- water shimmer -->
+  <div class="water"></div>
+
+  <!-- Quote -->
+  <div class="splash-quote">
+    <div class="splash-greeting" id="splashGreeting">早安，今天也要閃閃發光 ✨</div>
+    <div class="splash-motivate" id="splashQuote">每一位妳幫助的客戶，<br>都是<em>最棒的自己</em>的起點</div>
+    <div class="splash-sub" id="splashSub">—— 你是她們改變的那道光 🌟</div>
+  </div>
+
+  <div class="splash-date" id="splashDate"></div>
+
+  <div class="splash-tap">點擊任何地方開始 🐥</div>
+</div>
+<div class="header">
+  <div class="header-inner">
+    <div class="logo"><span class="logo-icon">🐥</span>書琳客戶名單管理</div>
+    <div class="header-stats">
+      <span class="stat-item">👥 <span id="hTotal">0</span> 位客戶</span>
+      <span class="stat-item">✅ <span id="hDeal">0</span> 成交</span>
+      <span class="stat-item">💰 本月 <span id="hMonthly">$0</span></span>
+      <span class="stat-item">🔔 <span id="hRemind">0</span> 待關心</span>
+    </div>
+    <button class="notif-btn" id="notifBtn" onclick="toggleNotifInfo()" title="提醒通知">
+      🔔<span class="notif-dot" id="notifDot"></span>
+    </button>
+    <div id="syncStatus" style="font-size:0.75rem;white-space:nowrap"></div>
+    <button class="btn-add-header" onclick="openAddModal()">＋ 新增客戶</button>
+  </div>
+</div>
+
+<!-- NAV TABS -->
+<div class="nav-tabs">
+  <button class="nav-tab active" onclick="switchTab('clients',this)">👥 客戶名單</button>
+  <button class="nav-tab" onclick="switchTab('reminders',this)">🔔 跟進提醒</button>
+  <button class="nav-tab" onclick="switchTab('analysis',this)">📊 成交分析</button>
+  <button class="nav-tab" onclick="switchTab('products',this)">🛍️ 產品目錄</button>
+  <button class="nav-tab" onclick="switchTab('backup',this)">💾 備份資料</button>
+  <button class="nav-tab" onclick="switchTab('airemind',this)">🤖 AI 回訪</button>
+</div>
+
+<!-- 手機底部導覽列 -->
+<div class="mob-nav" id="mobNav">
+  <div class="mob-nav-inner">
+    <button class="mob-nav-btn active" data-tab="clients" onclick="switchTabMob('clients',this)">
+      <div class="mob-nav-icon">👥</div><div>客戶</div>
+    </button>
+    <button class="mob-nav-btn" data-tab="reminders" onclick="switchTabMob('reminders',this)">
+      <div class="mob-nav-icon">🔔</div>
+      <div class="mob-nav-dot" id="mobNavDot"></div>
+      <div>提醒</div>
+    </button>
+    <button class="mob-nav-btn" data-tab="airemind" onclick="switchTabMob('airemind',this)">
+      <div class="mob-nav-icon">🤖</div><div>AI回訪</div>
+    </button>
+    <button class="mob-nav-btn" data-tab="analysis" onclick="switchTabMob('analysis',this)">
+      <div class="mob-nav-icon">📊</div><div>分析</div>
+    </button>
+    <button class="mob-nav-btn" data-tab="backup" onclick="switchTabMob('backup',this)">
+      <div class="mob-nav-icon">💾</div><div>備份</div>
+    </button>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- ===== TAB: CLIENTS ===== -->
+  <div class="tab-content active" id="tab-clients">
+    <div class="search-card">
+      <div class="search-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" class="search-input" id="searchInput" placeholder="搜尋姓名、症狀、產品..." oninput="doSearch()">
+      </div>
+      <div class="search-hint">💡 可輸入：便秘、水腫、痘痘、月經痛、產品名稱⋯等任何關鍵字</div>
+      <div class="filter-row">
+        <span class="ftag all active" onclick="setFilter('all',this)">全部</span>
+        <span class="ftag deal" onclick="setFilter('deal',this)">✅ 已成交</span>
+        <span class="ftag nodeal" onclick="setFilter('nodeal',this)">⏳ 未成交</span>
+        <span class="ftag remind" onclick="setFilter('remind',this)">🔔 待關心</span>
+        <span class="ftag skin" onclick="setFilter('skin',this)">🩷 皮膚</span>
+        <span class="ftag fat" onclick="setFilter('fat',this)">🟠 肥胖</span>
+        <span class="ftag inner" onclick="setFilter('inner',this)">💜 體內</span>
+        <span class="ftag female" onclick="setFilter('female',this)">🌸 女性</span>
+        <span class="ftag extra" onclick="setFilter('extra',this)">💙 額外</span>
+      </div>
+    </div>
+    <div class="results-bar">
+      <div id="resultsCt"></div>
+    </div>
+    <div class="cust-grid" id="custGrid"></div>
+  </div>
+
+  <!-- ===== TAB: REMINDERS ===== -->
+  <div class="tab-content" id="tab-reminders">
+    <div class="remind-panel">
+      <h3>🔔 售後關心提醒</h3>
+      <div class="remind-tabs">
+        <button class="remind-tab-btn active" id="rtab-pending" onclick="switchRemindTab('pending',this)">📬 待處理</button>
+        <button class="remind-tab-btn" id="rtab-done" onclick="switchRemindTab('done',this)">✅ 已完成</button>
+      </div>
+      <div class="remind-list" id="remindList"></div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: ANALYSIS ===== -->
+  <div class="tab-content" id="tab-analysis">
+    <div class="analysis-grid" id="analysisStats"></div>
+    <div class="analysis-section">
+      <div class="analysis-title">🏷️ 最常賣出的產品</div>
+      <div id="prodChart"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-title">🎯 成交客戶最常見問題</div>
+      <div id="concernChart"></div>
+    </div>
+    <div class="analysis-section">
+      <div class="analysis-title">💡 成交關鍵洞察</div>
+      <div class="insight-list" id="insights"></div>
+    </div>
+  </div>
+
+  <!-- ===== TAB: BACKUP ===== -->
+  <div class="tab-content" id="tab-products">
+  <div class="prod-cat-grid" id="prodCatGrid"></div>
+</div>
+
+  <div class="tab-content" id="tab-backup">
+
+    <!-- 部署教學 -->
+    <div class="backup-hero">
+      <div class="backup-hero-icon">🌐</div>
+      <div class="backup-hero-title">讓書琳客戶名單永遠可以開啟</div>
+      <div class="backup-hero-sub">選擇一個免費平台，幾分鐘內就能有自己的專屬網址</div>
+    </div>
+
+    <div class="backup-grid">
+      <!-- Netlify Drop -->
+      <div class="deploy-card recommended">
+        <div class="deploy-badge">✨ 最推薦</div>
+        <div class="deploy-icon">🚀</div>
+        <div class="deploy-name">Netlify Drop</div>
+        <div class="deploy-desc">最簡單！拖放檔案就完成，完全免費，速度超快</div>
+        <ol class="deploy-steps">
+          <li>把 <code>客戶名單管理系統.html</code> 改名為 <code>index.html</code></li>
+          <li>開啟 <strong>netlify.com/drop</strong></li>
+          <li>把 index.html 拖進去黃色框框</li>
+          <li>等幾秒，你的網址就出現了 🎉</li>
+        </ol>
+        <a class="deploy-btn" href="https://app.netlify.com/drop" target="_blank">前往 Netlify Drop →</a>
+      </div>
+
+      <!-- GitHub Pages -->
+      <div class="deploy-card">
+        <div class="deploy-icon">🐙</div>
+        <div class="deploy-name">GitHub Pages</div>
+        <div class="deploy-desc">免費、穩定、可自訂網址，適合長期使用</div>
+        <ol class="deploy-steps">
+          <li>註冊 GitHub 帳號（免費）</li>
+          <li>建立新 Repository，命名為 <code>shullin</code></li>
+          <li>上傳 HTML 檔（改名 index.html）</li>
+          <li>Settings → Pages → 啟用，網址為<br><code>你的帳號.github.io/shullin</code></li>
+        </ol>
+        <a class="deploy-btn secondary" href="https://github.com" target="_blank">前往 GitHub →</a>
+      </div>
+
+      <!-- Google Drive -->
+      <div class="deploy-card">
+        <div class="deploy-icon">☁️</div>
+        <div class="deploy-name">存在 Google 雲端</div>
+        <div class="deploy-desc">不需要網址，但可以在任何裝置開啟同一個檔案</div>
+        <ol class="deploy-steps">
+          <li>把 HTML 上傳到 Google 雲端硬碟</li>
+          <li>右鍵 → 取得連結 → 設為「任何人可看」</li>
+          <li>下次開啟：Google 雲端 → 點擊 → 用瀏覽器開啟</li>
+          <li>⚠️ 注意：不同裝置的資料是分開的</li>
+        </ol>
+        <a class="deploy-btn secondary" href="https://drive.google.com" target="_blank">前往 Google 雲端 →</a>
+      </div>
+    </div>
+
+    <!-- 資料備份區 -->
+    <div class="backup-section">
+      <div class="backup-section-title">🛡️ 客戶資料防衛備份</div>
+      <div class="backup-section-sub">資料存在瀏覽器裡，換裝置或清除快取可能消失。<strong>請定期備份！</strong></div>
+
+      <div class="backup-actions">
+        <div class="backup-action-card" onclick="exportBackup()">
+          <div class="bac-icon">📤</div>
+          <div class="bac-title">匯出備份檔</div>
+          <div class="bac-desc">下載 .json 備份檔案<br>存到手機相簿或 Google 雲端</div>
+          <button class="bac-btn export">立即匯出備份</button>
+        </div>
+
+        <div class="backup-action-card" onclick="exportExcel()">
+          <div class="bac-icon">📊</div>
+          <div class="bac-title">匯出 Excel 表</div>
+          <div class="bac-desc">下載看得懂的客戶名單<br>用 Excel 開啟，方便閱讀</div>
+          <button class="bac-btn export">匯出 Excel</button>
+        </div>
+
+        <div class="backup-action-card" onclick="openChangePinModal()">
+          <div class="bac-icon">🔑</div>
+          <div class="bac-title">修改密碼</div>
+          <div class="bac-desc">變更打開這個網頁需要的密碼<br>換人保管手機時建議定期更換</div>
+          <button class="bac-btn export">修改密碼</button>
+        </div>
+
+        <div class="backup-action-card" onclick="document.getElementById('importFile').click()">
+          <div class="bac-icon">📥</div>
+          <div class="bac-title">匯入備份檔</div>
+          <div class="bac-desc">換裝置或資料不見時<br>選取之前的備份檔案還原</div>
+          <button class="bac-btn import">選取檔案還原</button>
+          <input type="file" id="importFile" accept=".json" style="display:none" onchange="importBackup(event)">
+        </div>
+
+        <div class="backup-action-card">
+          <div class="bac-icon">📋</div>
+          <div class="bac-title">複製備份碼</div>
+          <div class="bac-desc">複製整串備份文字<br>貼到記事本或 Line 自己</div>
+          <button class="bac-btn copy" onclick="copyBackupCode()">複製備份碼</button>
+        </div>
+
+        <div class="backup-action-card">
+          <div class="bac-icon">🔑</div>
+          <div class="bac-title">貼上備份碼還原</div>
+          <div class="bac-desc">把之前複製的備份碼<br>貼到這裡按還原</div>
+          <textarea class="bac-textarea" id="pasteCode" placeholder="把備份碼貼在這裡..."></textarea>
+          <button class="bac-btn import" onclick="restoreFromCode()">貼上還原</button>
+        </div>
+      </div>
+
+      <div class="backup-tip">
+        <div class="backup-tip-title">💡 書琳的備份小提醒</div>
+        <div class="backup-tip-items">
+          <div class="tip-item">📅 建議<strong>每週至少匯出一次</strong>備份檔，存到 Google 雲端</div>
+          <div class="tip-item">📱 可以把備份碼傳給自己的 Line，當緊急備份</div>
+          <div class="tip-item">💻 換新手機或電腦時，先匯出備份，再到新裝置匯入</div>
+          <div class="tip-item">🌐 上傳到 Netlify 後，資料仍然存在<strong>各自的瀏覽器裡</strong>，記得定期備份</div>
+        </div>
+      </div>
+
+      <div class="backup-status" id="backupStatus"></div>
+    </div>
+
+  </div>
+
+</div>
+
+  <div class="tab-content" id="tab-airemind">
+    <div class="ai-hero">
+      <div class="ai-hero-icon">🤖</div>
+      <div class="ai-hero-title">AI 智慧回訪建議</div>
+      <div class="ai-hero-sub">根據諮詢時間、成交狀態、健康需求自動評分排名，每天告訴你最應該聯繫哪些客戶，以及原因</div>
+      <button class="ai-line-btn" onclick="copyLineText()">📋 複製今日提醒 → 貼到 LINE</button>
+    </div>
+    <div id="aiTop5"></div>
+    <div class="ai-section-divider" id="aiFullListWrap"></div>
+  </div>
+
+<!-- ===== ADD / EDIT MODAL ===== -->
+<div class="overlay" id="addModal">
+<div class="modal">
+  <div class="modal-hd">
+    <div class="modal-hd-title" id="modalTitle">📋 新增客戶諮詢資料</div>
+    <button class="mcls" onclick="closeModal('addModal')">✕</button>
+  </div>
+  <div class="modal-body">
+
+    <!-- 基本資料 -->
+    <div class="fsec">
+      <div class="fsec-title">🌸 基本資料</div>
+      <div class="frow">
+        <div class="fgrp"><label class="flbl">姓名 *</label><input class="finp" id="f_name" placeholder="客戶姓名"></div>
+        <div class="fgrp"><label class="flbl">諮詢日期時間</label><input class="finp" id="f_consult" type="datetime-local"></div>
+      </div>
+      <div class="frow t4">
+        <div class="fgrp"><label class="flbl">年齡</label><input class="finp" id="f_age" type="number" placeholder="歲"></div>
+        <div class="fgrp"><label class="flbl">身高 (cm)</label><input class="finp" id="f_height" type="number" placeholder="cm" oninput="calcBMI()"></div>
+        <div class="fgrp"><label class="flbl">體重 (kg)</label><input class="finp" id="f_weight" type="number" placeholder="kg" oninput="calcBMI()"></div>
+        <div class="fgrp"><label class="flbl">體脂 (%)</label><input class="finp" id="f_fat" type="number" placeholder="%"></div>
+      </div>
+      <div class="frow">
+        <div class="fgrp"><label class="flbl">BMI（自動計算）</label><div class="bmi-display" id="bmiDisplay"><span style="color:var(--soft)">填入身高體重後自動計算</span></div></div>
+        <div class="fgrp"><label class="flbl">聯絡方式（Line/電話）</label><input class="finp" id="f_contact" placeholder="Line ID 或電話"></div>
+      </div>
+      <div class="frow s1">
+        <div class="fgrp">
+          <label class="flbl">有無生產經驗</label>
+          <div class="birth-toggle">
+            <label class="birth-opt" id="birth_no" onclick="manualToggleLabel(event,this)"><input type="radio" name="f_birth" value="無" onchange="toggleBirth(this)">無生產</label>
+            <label class="birth-opt" id="birth_yes" onclick="manualToggleLabel(event,this)"><input type="radio" name="f_birth" value="有" onchange="toggleBirth(this)">有生產</label>
+          </div>
+          <div class="birth-detail" id="birthDetail" style="display:none">
+            <input class="finp" id="f_birthcount" type="number" min="1" max="10" placeholder="幾胎" style="width:90px">
+            <input class="finp" id="f_birthafter" placeholder="產後多久（如：8個月、2年）" style="flex:1">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 成交資訊 -->
+    <div class="fsec">
+      <div class="fsec-title">💰 成交資訊</div>
+      <div class="frow s1">
+        <div class="fgrp">
+          <label class="flbl">是否成交</label>
+          <div class="deal-toggle">
+            <div class="deal-opt yes-opt" id="dealYes" onclick="setDeal(true)">✅ 已成交</div>
+            <div class="deal-opt no-opt" id="dealNo" onclick="setDeal(false)">⏳ 尚未成交</div>
+          </div>
+        </div>
+      </div>
+      <div id="dealSection" style="display:none">
+        <div class="frow s1" style="margin-top:10px">
+          <div class="fgrp">
+            <label class="flbl">🛍️ 成交產品</label>
+            <div class="prod-tags" id="prodTags"></div>
+            <div class="prod-input-wrap">
+              <input class="finp" id="prodInput" placeholder="或手動輸入其他產品名稱，按 Enter 新增" style="flex:1" onkeydown="if(event.key==='Enter'){event.preventDefault();addProduct()}">
+              <button class="prod-add-btn" onclick="openProductPicker()">🛍️ 新增</button>
+            </div>
+          </div>
+        </div>
+        <div class="frow" style="margin-top:10px">
+          <div class="fgrp"><label class="flbl">成交金額 (元)</label><input class="finp" id="f_amount" type="number" placeholder="0"></div>
+          <div class="fgrp"><label class="flbl">成交日期</label><input class="finp" id="f_dealdate" type="date"></div>
+        </div>
+        <div class="frow" style="margin-top:10px">
+          <div class="fgrp">
+            <label class="flbl">📦 到貨日期</label>
+            <input class="finp" id="f_arrivaldate" type="date">
+            <div style="font-size:0.72rem;color:var(--soft);margin-top:4px">客戶實際收到產品的日期，售後關心提醒從此日起算</div>
+          </div>
+        </div>
+        <div class="frow s1" style="margin-top:10px">
+          <div class="fgrp">
+            <label class="flbl">🔔 售後關心提醒天數（可多選，從到貨日起算）</label>
+            <div class="remind-presets">
+              <label class="remind-preset-chk" id="rpc_1" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="1" onchange="toggleRemindPreset(this)">第 1 天</label>
+              <label class="remind-preset-chk" id="rpc_3" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="3" onchange="toggleRemindPreset(this)">第 3 天</label>
+              <label class="remind-preset-chk" id="rpc_7" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="7" onchange="toggleRemindPreset(this)">第 7 天</label>
+              <label class="remind-preset-chk" id="rpc_14" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="14" onchange="toggleRemindPreset(this)">第 14 天</label>
+              <label class="remind-preset-chk" id="rpc_30" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="30" onchange="toggleRemindPreset(this)">第 30 天</label>
+              <label class="remind-preset-chk" id="rpc_60" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="60" onchange="toggleRemindPreset(this)">第 60 天</label>
+              <label class="remind-preset-chk" id="rpc_90" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="90" onchange="toggleRemindPreset(this)">第 90 天</label>
+              <label class="remind-preset-chk" id="rpc_120" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="120" onchange="toggleRemindPreset(this)">第 120 天</label>
+              <label class="remind-preset-chk" id="rpc_150" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="150" onchange="toggleRemindPreset(this)">第 150 天</label>
+              <label class="remind-preset-chk" id="rpc_180" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="180" onchange="toggleRemindPreset(this)">第 180 天</label>
+            </div>
+          </div>
+        </div>
+        <div class="frow s1" style="margin-top:12px">
+          <div class="fgrp">
+            <label class="flbl">✅ 售後追蹤狀態</label>
+            <div class="care-track-wrap">
+              <label class="care-track-item" id="chk_healthEdu" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleCareTrack(this,'chk_healthEdu')">🏥 已進行衛教</label>
+              <label class="care-track-item" id="chk_slimClass" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleCareTrack(this,'chk_slimClass')">💪 已完成纖體班報名</label>
+            </div>
+          </div>
+        </div>
+        <div class="frow s1" style="margin-top:14px">
+          <div class="fgrp">
+            <label class="flbl">🎯 其他還想改善的問題（可複選）</label>
+            <div style="font-size:0.75rem;color:var(--soft);margin-bottom:2px">這次成交外，客戶還有哪些尚未解決的需求？</div>
+            <div class="extra-goal-grid">
+              <label class="extra-goal-chk" id="eg_slim" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="瘦身體態" onchange="toggleExtraGoal(this)">💪 瘦身體態</label>
+              <label class="extra-goal-chk" id="eg_edema" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="消水腫" onchange="toggleExtraGoal(this)">💧 消水腫</label>
+              <label class="extra-goal-chk" id="eg_gut" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="腸道健康" onchange="toggleExtraGoal(this)">🔄 腸道健康</label>
+              <label class="extra-goal-chk" id="eg_skin" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="皮膚保養美白" onchange="toggleExtraGoal(this)">🩷 皮膚保養美白</label>
+              <label class="extra-goal-chk" id="eg_scalp" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="頭皮養護" onchange="toggleExtraGoal(this)">💆 頭皮養護</label>
+              <label class="extra-goal-chk" id="eg_anti" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="抗老緊緻" onchange="toggleExtraGoal(this)">✨ 抗老緊緻</label>
+              <label class="extra-goal-chk" id="eg_immune" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="免疫力提升" onchange="toggleExtraGoal(this)">🌿 免疫力提升</label>
+              <label class="extra-goal-chk" id="eg_sleep" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="睡眠改善" onchange="toggleExtraGoal(this)">😴 睡眠改善</label>
+              <label class="extra-goal-chk" id="eg_energy" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="精神活力" onchange="toggleExtraGoal(this)">⚡ 精神活力</label>
+              <label class="extra-goal-chk" id="eg_liver" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="護肝排毒" onchange="toggleExtraGoal(this)">💊 護肝排毒</label>
+              <label class="extra-goal-chk" id="eg_lung" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="呼吸道保養" onchange="toggleExtraGoal(this)">🫁 呼吸道保養</label>
+              <label class="extra-goal-chk" id="eg_bone" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="骨關節保養" onchange="toggleExtraGoal(this)">🦴 骨關節保養</label>
+              <label class="extra-goal-chk" id="eg_eye" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="眼睛保養" onchange="toggleExtraGoal(this)">👁️ 眼睛保養</label>
+              <label class="extra-goal-chk" id="eg_female" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="女性調理" onchange="toggleExtraGoal(this)">🌸 女性調理</label>
+              <label class="extra-goal-chk" id="eg_blood" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="補血貧血" onchange="toggleExtraGoal(this)">🩸 補血貧血</label>
+              <label class="extra-goal-chk" id="eg_maternity" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="孕期產後調養" onchange="toggleExtraGoal(this)">🤱 孕期產後調養</label>
+            </div>
+            <textarea class="extra-goal-note" id="f_extragoalnote" placeholder="其他補充說明，如：下次可推薦的產品、客戶說的話、特殊情況等..."></textarea>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 未成交諮詢區 -->
+    <div id="noSaleSection" style="display:none">
+      <div class="fsec">
+        <div class="fsec-title">🛒 諮詢項目（可複選）</div>
+        <div style="font-size:0.78rem;color:var(--soft);margin-bottom:10px">客戶這次詢問了哪些產品類別？</div>
+        <div class="nosale-section-box" id="consultItemsWrap"></div>
+      </div>
+      <div class="fsec">
+        <div class="fsec-title">💡 最有購買意向的產品（可複選）</div>
+        <div style="font-size:0.78rem;color:var(--soft);margin-bottom:10px">客戶最感興趣、最可能成交的產品是哪些？</div>
+        <div class="nosale-section-box" id="intentProdsWrap"></div>
+      </div>
+    </div>
+
+    <!-- 生活習慣 -->
+    <div class="fsec">
+      <div class="fsec-title">🌙 生活習慣</div>
+      <div class="frow">
+        <div class="fgrp"><label class="flbl">排便頻率</label><input class="finp" id="f_bowel" placeholder="如：每天一次"></div>
+        <div class="fgrp"><label class="flbl">運動習慣</label><input class="finp" id="f_exercise" placeholder="有/沒有、次數"></div>
+      </div>
+      <div class="frow">
+        <div class="fgrp"><label class="flbl">睡眠時間</label><input class="finp" id="f_sleep" placeholder="如：凌晨1點、7小時"></div>
+        <div class="fgrp"><label class="flbl">每日飲水量</label><input class="finp" id="f_water" placeholder="如：1500cc"></div>
+      </div>
+      <div class="frow s1">
+        <div class="fgrp"><label class="flbl">工作性質</label><input class="finp" id="f_work" placeholder="如：久坐辦公室、需要久站"></div>
+      </div>
+      <div class="frow s1">
+        <div class="fgrp"><label class="flbl">每日飲食概況</label><textarea class="ftxt" id="f_diet" placeholder="幾餐？外食還是自煮？大致吃什麼？"></textarea></div>
+      </div>
+    </div>
+
+    <!-- 瘦身目標 -->
+    <div class="fsec">
+      <div class="fsec-title">🎯 瘦身目標</div>
+      <div class="frow s1">
+        <div class="fgrp">
+          <label class="flbl">想瘦哪個部位（可複選）</label>
+          <div class="slim-parts-wrap">
+            <label class="remind-preset-chk" id="sp_whole" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="全身" onchange="toggleSlimPart(this)">全身</label>
+            <label class="remind-preset-chk" id="sp_belly" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="小腹" onchange="toggleSlimPart(this)">小腹</label>
+            <label class="remind-preset-chk" id="sp_waist" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="腰臀" onchange="toggleSlimPart(this)">腰臀</label>
+            <label class="remind-preset-chk" id="sp_arm" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="手臂" onchange="toggleSlimPart(this)">手臂</label>
+            <label class="remind-preset-chk" id="sp_thigh" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="大腿" onchange="toggleSlimPart(this)">大腿</label>
+            <label class="remind-preset-chk" id="sp_calf" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="小腿" onchange="toggleSlimPart(this)">小腿</label>
+            <label class="remind-preset-chk" id="sp_back" onclick="manualToggleLabel(event,this)"><input type="checkbox" value="背部" onchange="toggleSlimPart(this)">背部</label>
+          </div>
+        </div>
+      </div>
+      <div class="frow" style="margin-top:10px">
+        <div class="fgrp">
+          <label class="flbl">想瘦幾公斤</label>
+          <input class="finp" id="f_slimkg" type="number" min="0" max="100" placeholder="如：8">
+        </div>
+      </div>
+    </div>
+
+    <!-- 過去紀錄 -->
+    <div class="fsec">
+      <div class="fsec-title">💊 過去減肥／用藥紀錄</div>
+      <div class="frow s1"><div class="fgrp"><label class="flbl">曾吃過其他減肥產品</label><textarea class="ftxt" id="f_past_products" placeholder="無 / 曾使用..."></textarea></div></div>
+      <div class="frow">
+        <div class="fgrp"><label class="flbl">曾實施減肥方式</label><input class="finp" id="f_past_diet" placeholder="168/生酮/榮總餐..."></div>
+        <div class="fgrp"><label class="flbl">目前使用中的藥物</label><input class="finp" id="f_meds" placeholder="無 / 藥物名稱"></div>
+      </div>
+      <div class="frow s1"><div class="fgrp"><label class="flbl">本身有什麼疾病</label><input class="finp" id="f_disease" placeholder="無 / 如：糖尿病、高血壓"></div></div>
+    </div>
+
+    <!-- 飲食習慣 -->
+    <div class="fsec">
+      <div class="fsec-title">🍔 飲食習慣</div>
+      <div class="frow s1">
+        <div class="fgrp">
+          <label class="flbl">具體三餐內容</label>
+          <textarea class="ftxt" id="f_meals" placeholder="早餐：&#10;午餐：&#10;晚餐：&#10;宵夜 / 點心：" style="min-height:110px"></textarea>
+        </div>
+      </div>
+      <div class="cgrid" style="grid-template-columns:repeat(auto-fill,minmax(150px,1fr))">
+        <label class="cchk fat" id="chk_fried" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">愛吃油炸重口味</label>
+        <label class="cchk fat" id="chk_snack" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">愛吃零食甜食</label>
+        <label class="cchk fat" id="chk_drink" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">愛喝飲料茶咖啡</label>
+        <label class="cchk fat" id="chk_lateeat" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">愛吃宵夜</label>
+        <label class="cchk fat" id="chk_bigmeal" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">常吃大餐</label>
+        <label class="cchk fat" id="chk_alcohol" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">常喝酒</label>
+        <label class="cchk inner" id="chk_latesleep" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">熬夜晚睡</label>
+      </div>
+    </div>
+
+    <!-- 想改善問題 -->
+    <div class="fsec">
+      <div class="fsec-title">🎯 想改善的問題</div>
+      <div class="cchk-lbl skin">🩷 皮膚狀況</div>
+      <div class="cgrid">
+        <label class="cchk skin" id="chk_acne" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">痘痘／粉刺</label>
+        <label class="cchk skin" id="chk_spot" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">斑點</label>
+        <label class="cchk skin" id="chk_whitening" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">美白</label>
+        <label class="cchk skin" id="chk_allergy" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">過敏</label>
+        <label class="cchk skin" id="chk_dull" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">暗沉</label>
+        <label class="cchk skin" id="chk_pore" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">毛孔粗大</label>
+        <label class="cchk skin" id="chk_dyshidrosis" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">汗皰疹</label>
+        <label class="cchk skin" id="chk_sensitive" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">敏感肌</label>
+        <label class="cchk skin" id="chk_red" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">泛紅／酒糟肌</label>
+        <label class="cchk skin" id="chk_urticaria" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">蕁麻疹</label>
+        <label class="cchk skin" id="chk_eczema" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">濕疹</label>
+        <label class="cchk skin" id="chk_dry" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">乾裂</label>
+        <label class="cchk skin" id="chk_oilyskin" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">油脂分泌旺盛</label>
+      </div>
+      <div class="cchk-lbl fat" style="margin-top:10px">🟠 肥胖問題</div>
+      <div class="cgrid">
+        <label class="cchk fat" id="chk_belly" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">肚子大</label>
+        <label class="cchk fat" id="chk_constipation" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">便秘／排便不順</label>
+        <label class="cchk fat" id="chk_fatlegs" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">腿粗</label>
+        <label class="cchk fat" id="chk_fatbutt" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">屁股大</label>
+        <label class="cchk fat" id="chk_bodyshape" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">對身材不滿意</label>
+        <label class="cchk fat" id="chk_highfat" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">脂肪高</label>
+        <label class="cchk fat" id="chk_plateau" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">減肥停滯期</label>
+        <label class="cchk fat" id="chk_rebound" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">常常復胖</label>
+        <label class="cchk fat" id="chk_edema" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">水腫</label>
+      </div>
+      <div class="cchk-lbl inner" style="margin-top:10px">💜 體內保養</div>
+      <div class="cgrid">
+        <label class="cchk inner" id="chk_bloat" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">脹氣</label>
+        <label class="cchk inner" id="chk_eye" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">眼睛疲勞乾澀</label>
+        <label class="cchk inner" id="chk_metabolism" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">身體代謝差</label>
+        <label class="cchk inner" id="chk_sick" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">常常生病</label>
+        <label class="cchk inner" id="chk_atopic" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">異位性皮膚炎</label>
+        <label class="cchk inner" id="chk_uncomfortable" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">身體常不舒服</label>
+        <label class="cchk inner" id="chk_spirit" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">精神不好</label>
+        <label class="cchk inner" id="chk_tired" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">經常疲勞</label>
+        <label class="cchk inner" id="chk_memory" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">記憶力差</label>
+        <label class="cchk inner" id="chk_cardiovascular" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">心血管問題</label>
+        <label class="cchk inner" id="chk_badsleep" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">睡眠不好</label>
+        <label class="cchk inner" id="chk_liver" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">熬夜顧肝</label>
+        <label class="cchk inner" id="chk_nose" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">鼻子過敏</label>
+      </div>
+      <div class="cchk-lbl female" style="margin-top:10px">🌸 女性困擾</div>
+      <div class="cgrid">
+        <label class="cchk female" id="chk_period" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">月經痛</label>
+        <label class="cchk female" id="chk_coldhand" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">手腳冰冷</label>
+        <label class="cchk female" id="chk_hormone" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">內分泌失調</label>
+        <label class="cchk female" id="chk_pregnancy" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">孕期備孕產後</label>
+        <label class="cchk female" id="chk_anemia" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">貧血</label>
+        <label class="cchk female" id="chk_collagen" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">膠原蛋白流失</label>
+        <label class="cchk female" id="chk_skincondition" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">皮膚差</label>
+        <label class="cchk female" id="chk_intimate" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">私密處感染</label>
+        <label class="cchk female" id="chk_hairloss" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">產後落髮</label>
+      </div>
+      <div class="cchk-lbl extra" style="margin-top:10px">💙 額外需求</div>
+      <div class="cgrid">
+        <label class="cchk extra" id="chk_irregular" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">三餐不正常</label>
+        <label class="cchk extra" id="chk_lowcal" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">找低卡代餐</label>
+        <label class="cchk extra" id="chk_noveg" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">少吃蔬菜水果</label>
+        <label class="cchk extra" id="chk_oilyhair" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">頭髮出油</label>
+        <label class="cchk extra" id="chk_dryskin2" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">皮膚乾裂</label>
+        <label class="cchk extra" id="chk_eyecare" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">保養眼睛</label>
+        <label class="cchk extra" id="chk_bone" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">骨質疏鬆</label>
+        <label class="cchk extra" id="chk_joint" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">骨頭酸痛關節</label>
+        <label class="cchk extra" id="chk_lung" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">顧肺部</label>
+        <label class="cchk extra" id="chk_throat" onclick="manualToggleLabel(event,this)"><input type="checkbox" onchange="toggleChk(this)">喉嚨乾癢咳嗽</label>
+      </div>
+    </div>
+
+    <!-- 備註 -->
+    <div class="fsec">
+      <div class="fsec-title">📝 備註 / 跟進紀錄</div>
+      <div class="fgrp"><textarea class="ftxt" id="f_note" placeholder="其他補充、跟進狀況..." style="min-height:90px"></textarea></div>
+    </div>
+
+    <!-- 客製化吃法備注 -->
+    <div class="fsec">
+      <div class="fsec-title">🍽️ 客製化吃法 ／ 注意事項備注</div>
+      <div class="fgrp">
+        <textarea class="ftxt care-note-txt" id="f_carenote" placeholder="在此記錄為客戶規劃的客製化產品吃法、搭配方式、特別注意事項、個人化建議等...（可記錄至 3000 字）" maxlength="3000"></textarea>
+        <div id="carenote_count" style="font-size:0.72rem;color:var(--soft);margin-top:4px;text-align:right">0 / 3000 字</div>
+      </div>
+    </div>
+
+  </div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal('addModal')">取消</button>
+    <button class="btn-save" onclick="saveCustomer()">💾 儲存資料</button>
+  </div>
+</div>
+</div>
+
+<!-- DETAIL MODAL -->
+<div class="overlay" id="detailModal">
+<div class="modal">
+  <div class="modal-hd">
+    <div class="modal-hd-title" id="detailTitle">👤 客戶詳細資料</div>
+    <button class="mcls" onclick="closeModal('detailModal')">✕</button>
+  </div>
+  <div class="modal-body" id="detailBody"></div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal('detailModal')">關閉</button>
+    <button class="btn-save" onclick="editFromDetail()">✏️ 編輯資料</button>
+  </div>
+</div>
+</div>
+
+<!-- 成交產品選擇器彈窗 -->
+<div class="overlay overlay-top" id="prodPickerModal">
+<div class="modal">
+  <div class="modal-hd">
+    <div class="modal-hd-title">🛍️ 選擇成交產品</div>
+    <button class="mcls" onclick="closeModal('prodPickerModal')">✕</button>
+  </div>
+  <div class="modal-body">
+    <div class="picker-cat-tabs" id="pickerCatTabs"></div>
+    <div class="picker-list" id="pickerList"></div>
+  </div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal('prodPickerModal')">取消</button>
+    <button class="btn-save" onclick="confirmProductPicker()">✅ 完成選擇</button>
+  </div>
+</div>
+</div>
+
+<div class="overlay" id="prodCatModal">
+<div class="modal">
+  <div class="modal-hd">
+    <div class="modal-hd-title" id="prodCatTitle">🛍️ 產品類別</div>
+    <button class="mcls" onclick="closeModal('prodCatModal')">✕</button>
+  </div>
+  <div class="modal-body" id="prodCatBody"></div>
+  <div class="modal-ft">
+    <button class="btn-cancel" onclick="closeModal('prodCatModal')">關閉</button>
+  </div>
+</div>
+</div>
+
+<!-- DELETE CONFIRM MODAL -->
+<div class="del-overlay" id="delModal">
+  <div class="del-box">
+    <div class="del-icon">🗑️</div>
+    <div class="del-title">確定要刪除嗎？</div>
+    <div class="del-name" id="delName"></div>
+    <div class="del-desc">刪除後無法復原，<br>這位客戶的所有資料都會消失喔！</div>
+    <div class="del-btns">
+      <button class="del-cancel" onclick="closeDelModal()">取消</button>
+      <button class="del-confirm" onclick="confirmDelete()">確定刪除</button>
+    </div>
+  </div>
+</div>
+
+<div class="toast" id="toast"></div>
+
+<script>
+// ── DATA ──────────────────────────────────
+const SK = 'slim_v3';
+const SK_DISMISS = 'slim_dismissed_v1';
+const SK_PRODSTATUS = 'slim_prodstatus_v1';
+const SK_UNSYNCED = 'slim_unsynced_v1';
+const API = 'https://script.google.com/macros/s/AKfycbzafsQDbriBwoR9bW2K9eG1LM5bGmKm5k3G80ISr7poCKOgSto19_jhwiL4KAEGFtR_/exec';
+// 🔴 這組密鑰要跟 Apps Script 後端裡設定的一致才會通，換掉下面這串、也要同步換 Apps Script 那邊，見部署教學。
+const API_SECRET = 'shulin_change_this_secret_2026';
+let customers = [], editId = null, viewId = null, curFilter = 'all', curSearch = '', prodList = [];
+let dealValue = null;
+let dismissedReminders = new Set();
+let isSyncing = false;
+
+const CM = {
+  chk_acne:{l:'痘痘／粉刺',t:'skin'},chk_spot:{l:'斑點',t:'skin'},chk_whitening:{l:'美白',t:'skin'},
+  chk_allergy:{l:'過敏',t:'skin'},chk_dull:{l:'暗沉',t:'skin'},chk_pore:{l:'毛孔粗大',t:'skin'},
+  chk_dyshidrosis:{l:'汗皰疹',t:'skin'},chk_sensitive:{l:'敏感肌',t:'skin'},
+  chk_red:{l:'泛紅／酒糟肌',t:'skin'},chk_urticaria:{l:'蕁麻疹',t:'skin'},
+  chk_eczema:{l:'濕疹',t:'skin'},chk_dry:{l:'乾裂',t:'skin'},chk_oilyskin:{l:'油脂分泌旺盛',t:'skin'},
+  chk_belly:{l:'肚子大',t:'fat'},chk_constipation:{l:'便秘／排便不順',t:'fat'},
+  chk_fatlegs:{l:'腿粗',t:'fat'},chk_fatbutt:{l:'屁股大',t:'fat'},
+  chk_bodyshape:{l:'對身材不滿意',t:'fat'},chk_highfat:{l:'脂肪高',t:'fat'},
+  chk_plateau:{l:'減肥停滯期',t:'fat'},chk_rebound:{l:'常常復胖',t:'fat'},chk_edema:{l:'水腫',t:'fat'},
+  chk_bloat:{l:'脹氣',t:'inner'},chk_eye:{l:'眼睛疲勞乾澀',t:'inner'},
+  chk_metabolism:{l:'身體代謝差',t:'inner'},chk_sick:{l:'常常生病',t:'inner'},
+  chk_atopic:{l:'異位性皮膚炎',t:'inner'},chk_uncomfortable:{l:'身體常不舒服',t:'inner'},
+  chk_spirit:{l:'精神不好',t:'inner'},chk_tired:{l:'經常疲勞',t:'inner'},
+  chk_memory:{l:'記憶力差',t:'inner'},chk_cardiovascular:{l:'心血管問題',t:'inner'},
+  chk_badsleep:{l:'睡眠不好',t:'inner'},chk_liver:{l:'熬夜顧肝',t:'inner'},chk_nose:{l:'鼻子過敏',t:'inner'},
+  chk_period:{l:'月經痛',t:'female'},chk_coldhand:{l:'手腳冰冷',t:'female'},
+  chk_hormone:{l:'內分泌失調',t:'female'},chk_pregnancy:{l:'孕期備孕產後',t:'female'},
+  chk_anemia:{l:'貧血',t:'female'},chk_collagen:{l:'膠原蛋白流失',t:'female'},
+  chk_skincondition:{l:'皮膚差',t:'female'},chk_intimate:{l:'私密處感染',t:'female'},
+  chk_hairloss:{l:'產後落髮',t:'female'},
+  chk_irregular:{l:'三餐不正常',t:'extra'},chk_lowcal:{l:'找低卡代餐',t:'extra'},
+  chk_noveg:{l:'少吃蔬菜水果',t:'extra'},chk_oilyhair:{l:'頭髮出油',t:'extra'},
+  chk_dryskin2:{l:'皮膚乾裂',t:'extra'},chk_eyecare:{l:'保養眼睛',t:'extra'},
+  chk_bone:{l:'骨質疏鬆',t:'extra'},chk_joint:{l:'骨頭酸痛關節',t:'extra'},
+  chk_lung:{l:'顧肺部',t:'extra'},chk_throat:{l:'喉嚨乾癢咳嗽',t:'extra'},
+  chk_fried:{l:'愛吃油炸重口味',t:'fat'},chk_snack:{l:'愛吃零食甜食',t:'fat'},
+  chk_drink:{l:'愛喝飲料茶咖啡',t:'fat'},chk_lateeat:{l:'愛吃宵夜',t:'fat'},
+  chk_bigmeal:{l:'常吃大餐',t:'fat'},chk_alcohol:{l:'常喝酒',t:'fat'},
+  chk_latesleep:{l:'熬夜晚睡',t:'inner'},
+};
+const TC = {
+  skin:{bg:'#FFF0F7',c:'#CC3377'},fat:{bg:'#FFF4E8',c:'#CC6600'},
+  inner:{bg:'#F3F0FF',c:'#6633CC'},female:{bg:'#FFF0F5',c:'#CC2266'},
+  extra:{bg:'#EEF6FF',c:'#2255AA'},
+};
+
+// ── 密碼鎖（擋不熟的人隨便打開網頁看到客戶資料）──────────────────
+// 密碼由使用者自己第一次打開時設定，存在這台裝置的瀏覽器裡，不是寫死在程式碼裡
+const SK_PIN = 'slim_pin_v1';
+const SK_UNLOCKED = 'slim_unlocked_v1';
+const UNLOCK_TTL_MS = 2 * 60 * 60 * 1000; // 解鎖狀態保留 2 小時，超過要重新輸入密碼
+function getStoredPin(){ try{ return localStorage.getItem(SK_PIN); }catch(e){ return null; } }
+function setStoredPin(pin){ try{ localStorage.setItem(SK_PIN, pin); }catch(e){} }
+function markUnlockedNow(){ try{ localStorage.setItem(SK_UNLOCKED, String(Date.now())); }catch(e){} }
+function isUnlockStillValid(){
+  try{
+    const t = parseInt(localStorage.getItem(SK_UNLOCKED) || '0');
+    return t > 0 && (Date.now() - t) < UNLOCK_TTL_MS;
+  }catch(e){ return false; }
+}
+
+const RESET_EMAIL = 'guynelly0903086639@gmail.com';
+function maskEmail(email){
+  const at=email.indexOf('@');
+  if(at<=2)return email;
+  return email.slice(0,3)+'***'+email.slice(at-1);
+}
+let resetFlow=null; // null | 'request' | 'verify'
+let resetCooldownUntil=0;
+
+function renderPinLock(){
+  const box=document.getElementById('pinBox');
+  if(!box)return;
+  const pin=getStoredPin();
+
+  if(resetFlow==='request'){
+    const cooling=Date.now()<resetCooldownUntil;
+    const secs=Math.ceil((resetCooldownUntil-Date.now())/1000);
+    box.innerHTML=`
+      <div class="pin-icon">📧</div>
+      <div class="pin-title">重設密碼</div>
+      <div class="pin-desc">會寄一組 6 位數驗證碼到<br><b>${esc(maskEmail(RESET_EMAIL))}</b></div>
+      <button class="pin-btn" id="sendCodeBtn" onclick="sendResetCode()" ${cooling?'disabled':''}>${cooling?`請稍候 ${secs} 秒`:'寄送驗證碼'}</button>
+      <div class="pin-err" id="pinErr" style="display:none"></div>
+      <div class="pin-forgot" onclick="cancelForgot()">返回登入</div>
+    `;
+    return;
+  }
+  if(resetFlow==='verify'){
+    box.innerHTML=`
+      <div class="pin-icon">📩</div>
+      <div class="pin-title">請輸入信箱收到的驗證碼</div>
+      <div class="pin-desc">已寄到 ${esc(maskEmail(RESET_EMAIL))}，10 分鐘內有效</div>
+      <input type="text" id="resetCodeInput" class="pin-input" placeholder="6 位數驗證碼" maxlength="6" onkeydown="if(event.key==='Enter')verifyResetCode()">
+      <button class="pin-btn" onclick="verifyResetCode()">驗證並重設密碼</button>
+      <div class="pin-err" id="pinErr" style="display:none"></div>
+      <div class="pin-forgot" onclick="startForgot()">沒收到？重新寄送</div>
+    `;
+    return;
+  }
+  if(!pin){
+    box.innerHTML=`
+      <div class="pin-icon">🔐</div>
+      <div class="pin-title">第一次使用，請設定你的密碼</div>
+      <input type="password" id="pinNew1" class="pin-input" placeholder="設定密碼（至少4碼）" maxlength="20">
+      <input type="password" id="pinNew2" class="pin-input" placeholder="再輸入一次確認" maxlength="20" onkeydown="if(event.key==='Enter')submitSetPin()">
+      <button class="pin-btn" onclick="submitSetPin()">設定並開始使用</button>
+      <div class="pin-err" id="pinErr" style="display:none"></div>
+    `;
+  }else{
+    box.innerHTML=`
+      <div class="pin-icon">🔒</div>
+      <div class="pin-title">書琳客戶名單管理｜請輸入密碼</div>
+      <input type="password" id="pinInput" class="pin-input" placeholder="輸入密碼" maxlength="20" onkeydown="if(event.key==='Enter')checkPin()">
+      <button class="pin-btn" onclick="checkPin()">解鎖</button>
+      <div class="pin-err" id="pinErr" style="display:none">密碼錯誤，再試一次</div>
+      <div class="pin-forgot" onclick="startForgot()">忘記密碼？</div>
+    `;
+  }
+}
+
+function submitSetPin(){
+  const v1=(document.getElementById('pinNew1')||{}).value||'';
+  const v2=(document.getElementById('pinNew2')||{}).value||'';
+  const err=document.getElementById('pinErr');
+  if(v1.length<4){
+    err.textContent='密碼至少要 4 碼';err.style.display='block';return;
+  }
+  if(v1!==v2){
+    err.textContent='兩次輸入的密碼不一樣，請重新輸入';err.style.display='block';
+    document.getElementById('pinNew1').value='';document.getElementById('pinNew2').value='';
+    return;
+  }
+  setStoredPin(v1);
+  markUnlockedNow();
+  const el=document.getElementById('pinLock');
+  if(el) el.classList.add('unlocked');
+}
+
+function checkPin(){
+  const v=(document.getElementById('pinInput')||{}).value;
+  if(v===getStoredPin()){
+    markUnlockedNow();
+    const el=document.getElementById('pinLock');
+    if(el) el.classList.add('unlocked');
+  }else{
+    const err=document.getElementById('pinErr');
+    if(err){ err.textContent='密碼錯誤，再試一次'; err.style.display='block'; }
+    const inp=document.getElementById('pinInput');
+    if(inp) inp.value='';
+  }
+}
+
+function startForgot(){
+  resetFlow='request';
+  renderPinLock();
+}
+function cancelForgot(){
+  resetFlow=null;
+  renderPinLock();
+}
+
+async function sendResetCode(){
+  if(Date.now()<resetCooldownUntil)return;
+  const err=document.getElementById('pinErr');
+  if(err)err.style.display='none';
+  try{
+    const res=await fetch(`${API}?action=requestResetCode&key=${encodeURIComponent(API_SECRET)}`);
+    const data=await res.json();
+    if(!res.ok||data.error){
+      if(err){ err.textContent='寄送失敗：'+(data.error||('HTTP '+res.status)); err.style.display='block'; }
+      return;
+    }
+    resetCooldownUntil=Date.now()+60000;
+    resetFlow='verify';
+    renderPinLock();
+    showToast('📧 驗證碼已寄出，請check信箱');
+  }catch(e){
+    if(err){ err.textContent='寄送失敗，請檢查網路連線，或確認後端已設定好重設驗證碼功能'; err.style.display='block'; }
+  }
+}
+
+async function verifyResetCode(){
+  const code=(document.getElementById('resetCodeInput')||{}).value||'';
+  const err=document.getElementById('pinErr');
+  if(!code){ err.textContent='請輸入驗證碼'; err.style.display='block'; return; }
+  try{
+    const res=await fetch(API,{
+      method:'POST',
+      headers:{'Content-Type':'text/plain'},
+      body: JSON.stringify({action:'verifyResetCode', code, key:API_SECRET}),
+    });
+    const data=await res.json();
+    if(data.valid){
+      try{ localStorage.removeItem(SK_PIN); localStorage.removeItem(SK_UNLOCKED); }catch(e){}
+      resetFlow=null;
+      renderPinLock();
+      showToast('✅ 驗證成功，請設定新密碼');
+    }else{
+      err.textContent='驗證碼錯誤或已過期，請重新寄送';err.style.display='block';
+    }
+  }catch(e){
+    err.textContent='驗證失敗，請檢查網路連線';err.style.display='block';
+  }
+}
+
+function openChangePinModal(){
+  document.getElementById('cp_old').value='';
+  document.getElementById('cp_new1').value='';
+  document.getElementById('cp_new2').value='';
+  document.getElementById('cpErr').style.display='none';
+  document.getElementById('changePinModal').classList.add('open');
+}
+function submitChangePin(){
+  const old=document.getElementById('cp_old').value;
+  const n1=document.getElementById('cp_new1').value;
+  const n2=document.getElementById('cp_new2').value;
+  const err=document.getElementById('cpErr');
+  if(old!==getStoredPin()){
+    err.textContent='目前密碼不正確';err.style.display='block';return;
+  }
+  if(n1.length<4){
+    err.textContent='新密碼至少要 4 碼';err.style.display='block';return;
+  }
+  if(n1!==n2){
+    err.textContent='兩次輸入的新密碼不一樣';err.style.display='block';return;
+  }
+  setStoredPin(n1);
+  closeModal('changePinModal');
+  showToast('✅ 密碼已更新');
+}
+
+renderPinLock();
+try{
+  if(isUnlockStillValid() && getStoredPin()){
+    const el=document.getElementById('pinLock');
+    if(el) el.classList.add('unlocked');
+  }
+}catch(e){}
+
+// ── 雲端同步（Google Sheets）+ 本地快取雙保險 ──────────────────
+function markUnsynced(){ try{localStorage.setItem(SK_UNSYNCED,'1');}catch(e){} }
+function clearUnsynced(){ try{localStorage.removeItem(SK_UNSYNCED);}catch(e){} }
+function hasUnsynced(){ try{return localStorage.getItem(SK_UNSYNCED)==='1';}catch(e){return false;} }
+
+async function load(){
+  showSyncStatus('loading');
+  // 先從 localStorage 快速顯示
+  try{
+    const r=localStorage.getItem(SK);
+    if(r){ customers=JSON.parse(r); renderAll(); }
+  }catch(e){}
+  loadDismissedLocal();
+
+  // 本地有離線時還沒傳上雲端的修改 → 先補傳，避免等下被雲端舊資料蓋掉
+  if(hasUnsynced()) await save();
+
+  // 再從雲端拉最新資料
+  try{
+    const res = await fetch(`${API}?action=getAll&key=${encodeURIComponent(API_SECRET)}`);
+    if(!res.ok) throw new Error('HTTP '+res.status);
+    const data = await res.json();
+    if(data.customers && !hasUnsynced()){
+      customers = data.customers.length > 0 ? data.customers : (customers.length > 0 ? customers : demo());
+      localStorage.setItem(SK, JSON.stringify(customers));
+      renderAll();
+    }
+    // 拉已讀提醒
+    const res2 = await fetch(`${API}?action=getDismissed&key=${encodeURIComponent(API_SECRET)}`);
+    const data2 = await res2.json();
+    if(data2.dismissed){
+      dismissedReminders = new Set(data2.dismissed);
+      localStorage.setItem(SK_DISMISS, JSON.stringify([...dismissedReminders]));
+      renderAll();
+    }
+    if(!hasUnsynced()) showSyncStatus('ok');
+  }catch(e){
+    // 雲端失敗，用本地資料
+    if(customers.length===0){ customers=demo(); renderAll(); }
+    showSyncStatus('offline', String(e));
+    console.log('雲端載入失敗:', e);
+  }
+}
+
+async function save(){
+  // 立刻存本地
+  localStorage.setItem(SK, JSON.stringify(customers));
+  // 非同步存雲端
+  try{
+    isSyncing=true; showSyncStatus('saving');
+    await fetch(API, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain'},
+      body: JSON.stringify({action:'saveAll', customers, key:API_SECRET}),
+    });
+    clearUnsynced();
+    showSyncStatus('ok');
+  }catch(e){
+    markUnsynced();
+    showSyncStatus('offline', String(e));
+    console.log('雲端儲存失敗:', e);
+  } finally { isSyncing=false; }
+}
+
+// 連線恢復時自動補傳；還沒恢復就每 20 秒重試一次，不用手動再存一次
+window.addEventListener('online', function(){
+  if(hasUnsynced() && !isSyncing) save();
+});
+setInterval(function(){
+  if(hasUnsynced() && !isSyncing) save();
+}, 20000);
+
+function loadDismissedLocal(){
+  try{
+    const r=localStorage.getItem(SK_DISMISS);
+    dismissedReminders=new Set(r?JSON.parse(r):[]);
+  }catch(e){dismissedReminders=new Set()}
+}
+
+async function saveDismissed(){
+  localStorage.setItem(SK_DISMISS, JSON.stringify([...dismissedReminders]));
+  try{
+    await fetch(API, {
+      method:'POST',
+      headers:{'Content-Type':'text/plain'},
+      body: JSON.stringify({action:'saveDismissed', dismissed:[...dismissedReminders], key:API_SECRET}),
+    });
+  }catch(e){
+    console.log('已讀提醒同步失敗:', e);
+  }
+}
+
+let lastSyncError = '';
+function showSyncStatus(state, errMsg){
+  const el = document.getElementById('syncStatus');
+  if(!el) return;
+  const map = {
+    loading: {icon:'⏳', text:'載入中...', color:'#888'},
+    saving:  {icon:'💾', text:'儲存中...', color:'var(--deep)'},
+    ok:      {icon:'☁️', text:'已同步', color:'var(--green)'},
+    offline: {icon:'📴', text:'離線（點我看原因）', color:'var(--coral)'},
+  };
+  const s = map[state] || map.ok;
+  if(errMsg) lastSyncError = errMsg;
+  const onclick = state==='offline' ? `onclick="alert('同步錯誤訊息：\\n'+lastSyncError)"` : '';
+  el.innerHTML = `<span style="color:${s.color};font-size:0.75rem;font-weight:700;cursor:${state==='offline'?'pointer':'default'}" ${onclick}>${s.icon} ${s.text}</span>`;
+  if(state==='ok') setTimeout(()=>{ if(el) el.innerHTML=''; }, 3000);
+}
+
+function demo(){
+  return [{
+    id:'d1',name:'王小美',age:32,height:158,weight:65,fat:30,contact:'Line: xiaomei',
+    consult:'2025-06-01T10:00',bowel:'2-3天一次',exercise:'沒有',sleep:'凌晨1點、6小時',
+    water:'500cc',work:'久坐辦公室',diet:'早餐不吃、午晚餐便當',
+    past_products:'纖纖果',past_diet:'168斷食',meds:'無',disease:'無',
+    deal:true,products:['膠原蛋白飲','纖體錠'],amount:2800,dealdate:'2025-06-01',
+    reminds:[15,30,90],note:'動力很強，希望3個月瘦8公斤',
+    concerns:['chk_constipation','chk_belly','chk_edema','chk_badsleep','chk_period','chk_latesleep','chk_snack'],
+    date:'2025-06-01'
+  },{
+    id:'d2',name:'陳大明',age:45,height:172,weight:88,fat:28,contact:'0912-345678',
+    consult:'2025-06-05T14:30',bowel:'每天一次',exercise:'偶爾散步',sleep:'11點睡、7小時',
+    water:'1000cc',work:'業務常外食',diet:'一天三餐，常應酬',
+    past_products:'無',past_diet:'無',meds:'高血壓藥',disease:'高血壓',
+    deal:false,products:[],amount:0,dealdate:'',reminds:[],note:'需注意高血壓藥交互作用',
+    concerns:['chk_belly','chk_cardiovascular','chk_bigmeal','chk_alcohol','chk_tired','chk_plateau'],
+    date:'2025-06-05'
+  }];
+}
+
+// ── BMI ──────────────────────────────────
+function calcBMI(){
+  const h=parseFloat(document.getElementById('f_height').value);
+  const w=parseFloat(document.getElementById('f_weight').value);
+  const el=document.getElementById('bmiDisplay');
+  if(!h||!w||h<50||h>250||w<10||w>300){
+    el.innerHTML='<span style="color:var(--soft)">填入身高體重後自動計算</span>';return;
+  }
+  const bmi=w/((h/100)**2);
+  const b=bmi.toFixed(1);
+  let cls='',label='';
+  if(bmi<18.5){cls='bmi-under';label='過輕'}
+  else if(bmi<24){cls='bmi-normal';label='正常'}
+  else if(bmi<27){cls='bmi-over';label='過重'}
+  else{cls='bmi-obese';label='肥胖'}
+  el.innerHTML=`<span class="bmi-val">${b}</span><span class="bmi-chip ${cls}">${label}</span>`;
+}
+
+function getBMI(c){
+  if(!c.height||!c.weight)return null;
+  return c.weight/((c.height/100)**2);
+}
+function getBMIClass(bmi){
+  if(!bmi)return'';
+  if(bmi<18.5)return'bmi-under';
+  if(bmi<24)return'bmi-normal';
+  if(bmi<27)return'bmi-over';
+  return'bmi-obese';
+}
+function getBMILabel(bmi){
+  if(!bmi)return'';
+  if(bmi<18.5)return'過輕';
+  if(bmi<24)return'正常';
+  if(bmi<27)return'過重';
+  return'肥胖';
+}
+
+// ── REMINDERS ──────────────────────────────────
+function getRemindItems(){
+  const today=new Date();today.setHours(0,0,0,0);
+  const items=[];
+  customers.forEach(c=>{
+    if(!c.deal||(c.reminds||[]).length===0)return;
+    const baseDate=c.arrivaldate||c.dealdate;
+    if(!baseDate)return;
+    const dd=new Date(baseDate);
+    (c.reminds||[]).forEach(days=>{
+      const rd=new Date(dd);rd.setDate(rd.getDate()+parseInt(days));
+      rd.setHours(0,0,0,0);
+      const diff=Math.round((rd-today)/(86400000));
+      const key=`${c.id}_${days}`;
+      const done=dismissedReminders.has(key);
+      items.push({customer:c,days,remindDate:rd,diff,key,done});
+    });
+  });
+  return items.sort((a,b)=>a.diff-b.diff);
+}
+
+function getDueCount(){
+  const items=getRemindItems();
+  return items.filter(x=>x.diff<=7&&!x.done).length;
+}
+
+let remindView='pending'; // 'pending' | 'done'
+
+function switchRemindTab(tab,el){
+  remindView=tab;
+  document.querySelectorAll('.remind-tab-btn').forEach(b=>b.classList.remove('active'));
+  el.classList.add('active');
+  renderReminders();
+}
+
+function dismissRemind(key,e){
+  e.stopPropagation();
+  dismissedReminders.add(key);
+  saveDismissed();
+  renderReminders();
+  updateHeader();
+  renderCards();
+  showToast('✅ 已標記為完成，提醒關閉');
+}
+
+function undoDismiss(key,e){
+  e.stopPropagation();
+  dismissedReminders.delete(key);
+  saveDismissed();
+  renderReminders();
+  updateHeader();
+  renderCards();
+  showToast('🔔 已恢復為待處理');
+}
+
+function renderReminders(){
+  const allItems=getRemindItems();
+  const pending=allItems.filter(x=>!x.done&&x.diff<=7);
+  const done=allItems.filter(x=>x.done&&x.diff>=-14);
+  const items=remindView==='pending'?pending:done;
+  const list=document.getElementById('remindList');
+
+  if(items.length===0){
+    if(remindView==='pending'){
+      list.innerHTML=`<div class="remind-empty">🎉 太棒了！沒有待處理的提醒<br><span style="font-size:0.75rem">${done.length>0?`${done.length} 筆已完成，可切換到「已完成」查看`:'成交客戶並設定提醒天數，就會在這裡顯示'}</span></div>`;
+    }else{
+      list.innerHTML='<div class="remind-empty">目前還沒有已完成的提醒</div>';
+    }
+    return;
+  }
+
+  list.innerHTML=items.map(x=>{
+    let cls='',dateStr='',icon='';
+    const rd=x.remindDate;
+    const fmt=`${rd.getMonth()+1}/${rd.getDate()}`;
+    if(x.done){
+      cls='done';dateStr=`第 ${x.days} 天`;icon='✅';
+    }else if(x.diff<0){cls='overdue';dateStr=`已過期 ${Math.abs(x.diff)} 天`;icon='🚨'}
+    else if(x.diff===0){cls='today';dateStr='今天！';icon='⭐'}
+    else if(x.diff<=7){cls='upcoming';dateStr=`${x.diff} 天後 (${fmt})`;icon='🔔'}
+    else{cls='';dateStr=`${x.diff} 天後 (${fmt})`;icon='📅'}
+
+    const actionBtn = x.done
+      ? `<button class="remind-done-btn is-done" onclick="undoDismiss('${x.key}',event)" title="恢復為待處理">↩ 恢復</button>`
+      : `<button class="remind-done-btn" onclick="dismissRemind('${x.key}',event)" title="標記已關心完成">✓ 完成</button>`;
+
+    return `<div class="remind-item ${cls}" onclick="viewCustomer('${x.customer.id}')">
+      <div class="remind-avatar" style="${x.done?'opacity:0.5':''}">${esc(x.customer.name.charAt(0))}</div>
+      <div class="remind-info">
+        <div class="remind-name">${esc(x.customer.name)}</div>
+        <div class="remind-desc">成交後第 ${x.days} 天 ─ 售後關心追蹤 ${icon}</div>
+        <div style="font-size:0.75rem;color:var(--soft);margin-top:2px">產品：${(x.customer.products||[]).join('、')||'—'}</div>
+      </div>
+      <div style="display:flex;flex-direction:column;align-items:flex-end;gap:6px;flex-shrink:0">
+        <div class="remind-date ${x.done?'':cls}">${dateStr}</div>
+        ${actionBtn}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ── ANALYSIS ──────────────────────────────────
+function renderAnalysis(){
+  const total=customers.length;
+  const dealt=customers.filter(c=>c.deal);
+  const rate=total?Math.round(dealt.length/total*100):0;
+  const totalRev=dealt.reduce((s,c)=>s+(parseInt(c.amount)||0),0);
+  const avgRev=dealt.length?Math.round(totalRev/dealt.length):0;
+
+  const today2=new Date();
+  const thisYear=today2.getFullYear();
+  const thisMonth=today2.getMonth();
+  const monthlyDealt=dealt.filter(c=>{
+    if(!c.dealdate)return false;
+    const d=new Date(c.dealdate);
+    return d.getFullYear()===thisYear&&d.getMonth()===thisMonth;
+  });
+  const monthlyRev=monthlyDealt.reduce((s,c)=>s+(parseInt(c.amount)||0),0);
+  const monthName=(thisMonth+1)+'月';
+
+  document.getElementById('analysisStats').innerHTML=`
+    <div class="stat-card"><div class="stat-num">${total}</div><div class="stat-label">👥 總客戶數</div></div>
+    <div class="stat-card"><div class="stat-num">${dealt.length}</div><div class="stat-label">✅ 已成交</div><div class="stat-sub">成交率 ${rate}%</div></div>
+    <div class="stat-card" style="border-color:#FFD93D;background:linear-gradient(135deg,#FFFBEC,#FFF8DC)"><div class="stat-num" style="color:#E6A800">${monthlyRev>0?'$'+monthlyRev.toLocaleString():'$0'}</div><div class="stat-label">💰 ${monthName}成交金額</div><div class="stat-sub">${monthlyDealt.length} 筆成交</div></div>
+    <div class="stat-card"><div class="stat-num">${avgRev>0?'$'+avgRev.toLocaleString():'—'}</div><div class="stat-label">📊 平均客單價</div></div>
+  `;
+
+  // Top products
+  const prodCount={};
+  dealt.forEach(c=>(c.products||[]).forEach(p=>{prodCount[p]=(prodCount[p]||0)+1}));
+  const sortedP=Object.entries(prodCount).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const maxP=sortedP[0]?sortedP[0][1]:1;
+  document.getElementById('prodChart').innerHTML=sortedP.length===0?'<div style="color:var(--soft);font-size:0.85rem;text-align:center;padding:20px">尚無成交紀錄</div>':
+    sortedP.map(([p,n])=>`<div class="bar-row">
+      <div class="bar-label">${esc(p)}</div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${Math.round(n/maxP*100)}%"><span class="bar-pct">${n}</span></div></div>
+    </div>`).join('');
+
+  // Top concerns of dealt customers
+  const ccount={};
+  dealt.forEach(c=>(c.concerns||[]).forEach(k=>{if(CM[k])ccount[k]=(ccount[k]||0)+1}));
+  const sortedC=Object.entries(ccount).sort((a,b)=>b[1]-a[1]).slice(0,8);
+  const maxC=sortedC[0]?sortedC[0][1]:1;
+  document.getElementById('concernChart').innerHTML=sortedC.length===0?'<div style="color:var(--soft);font-size:0.85rem;text-align:center;padding:20px">尚無資料</div>':
+    sortedC.map(([k,n])=>{const info=CM[k]||{l:k,t:'extra'};const col=TC[info.t]||TC.extra;return`<div class="bar-row">
+      <div class="bar-label" style="color:${col.c}">${esc(info.l)}</div>
+      <div class="bar-wrap"><div class="bar-fill" style="width:${Math.round(n/maxC*100)}%;background:linear-gradient(90deg,${col.c}88,${col.c})"><span class="bar-pct" style="color:${col.c}">${n}</span></div></div>
+    </div>`;}).join('');
+
+  // Insights
+  const insights=[];
+  if(dealt.length>0){
+    const dealedWithExercise=dealt.filter(c=>(c.exercise||'').includes('沒有')||(c.exercise||'').toLowerCase().includes('no'));
+    if(dealedWithExercise.length>dealt.length*0.5)insights.push({icon:'🏃',text:`成交客戶中有 ${Math.round(dealedWithExercise.length/dealt.length*100)}% 沒有運動習慣，主打「不運動也能瘦」是有效訴求`});
+    const topC=sortedC[0];
+    if(topC&&CM[topC[0]])insights.push({icon:'🎯',text:`成交客戶最常提到的問題是「${CM[topC[0]].l}」，諮詢時主動切入此痛點成效較高`});
+    const topP=sortedP[0];
+    if(topP)insights.push({icon:'🏆',text:`最受歡迎產品是「${topP[0]}」，共賣出 ${topP[1]} 次，可作為主推商品`});
+    if(avgRev>0)insights.push({icon:'💰',text:`平均客單價 $${avgRev.toLocaleString()}，可嘗試推薦組合方案提升到 $${Math.round(avgRev*1.3).toLocaleString()}`});
+    const noDealt=customers.filter(c=>!c.deal);
+    if(noDealt.length>0)insights.push({icon:'📞',text:`目前有 ${noDealt.length} 位未成交客戶，可針對其主要問題重新接觸跟進`});
+  }else{
+    insights.push({icon:'💡',text:'開始新增客戶並記錄成交情況，這裡就會自動分析成交關鍵！'});
+  }
+  document.getElementById('insights').innerHTML=insights.map(i=>`<div class="insight-item"><span class="insight-icon">${i.icon}</span><span>${esc(i.text)}</span></div>`).join('');
+}
+
+// ── RENDER CARDS ──────────────────────────────────
+function getCustText(c){
+  const cl=(c.concerns||[]).map(k=>CM[k]?.l||'').join(' ');
+  return [c.name,c.age,c.contact,c.bowel,c.exercise,c.sleep,c.water,c.work,c.diet,
+    c.past_products,c.past_diet,c.meds,c.disease,cl,(c.products||[]).join(' '),c.note].join(' ').toLowerCase();
+}
+
+function hl(txt,q){
+  if(!q)return esc(txt||'');
+  const eq=esc(q).replace(/[.*+?^${}()|[\]\\]/g,'\\$&');
+  return esc(txt||'').replace(new RegExp(eq,'gi'),m=>`<mark>${m}</mark>`);
+}
+function esc(s){return String(s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;')}
+
+function isReminderDue(c){
+  if(!c.deal||!c.dealdate||(c.reminds||[]).length===0)return false;
+  const today=new Date();today.setHours(0,0,0,0);
+  const dd=new Date(c.dealdate);
+  return (c.reminds||[]).some(days=>{
+    const key=`${c.id}_${days}`;
+    if(dismissedReminders.has(key))return false;
+    const rd=new Date(dd);rd.setDate(rd.getDate()+parseInt(days));rd.setHours(0,0,0,0);
+    return rd<=today&&rd>=new Date(today-7*86400000);
+  });
+}
+
+function renderCards(){
+  let list=[...customers];
+  if(curFilter==='deal')list=list.filter(c=>c.deal);
+  else if(curFilter==='nodeal')list=list.filter(c=>!c.deal);
+  else if(curFilter==='remind')list=list.filter(c=>isReminderDue(c));
+  else if(['skin','fat','inner','female','extra'].includes(curFilter))
+    list=list.filter(c=>(c.concerns||[]).some(k=>CM[k]?.t===curFilter));
+  if(curSearch.trim()){
+    const q=curSearch.trim().toLowerCase();
+    list=list.filter(c=>getCustText(c).includes(q));
+  }
+  const q=curSearch.trim();
+  const grid=document.getElementById('custGrid');
+  const ct=document.getElementById('resultsCt');
+  if(list.length===0){
+    grid.innerHTML=`<div class="empty"><div class="empty-icon">🔍</div><p>${q?`找不到「${esc(q)}」相關客戶`:'還沒有客戶，點右上角新增吧 🌟'}</p></div>`;
+    ct.innerHTML='找不到符合條件的客戶';return;
+  }
+  grid.innerHTML=list.map(c=>{
+    const bmi=getBMI(c);
+    const bmiCls=getBMIClass(bmi);
+    const bmiLbl=getBMILabel(bmi);
+    const cons=(c.concerns||[]).slice(0,3).map(k=>{
+      const i=CM[k];if(!i)return'';
+      const col=TC[i.t]||TC.extra;
+      return`<span class="ctag" style="background:${col.bg};color:${col.c}">${esc(i.l)}</span>`;
+    }).join('');
+    const more=(c.concerns||[]).length>3?`<span class="ctag" style="background:#F0F0F0;color:#888">+${(c.concerns||[]).length-3}</span>`:'';
+    const meta=[c.age?c.age+'歲':'',c.height?c.height+'cm':'',c.weight?c.weight+'kg':''].filter(Boolean).join('·');
+    const remDue=isReminderDue(c);
+    return`<div class="cust-card" onclick="viewCustomer('${c.id}')">
+      <div class="card-top">
+        <div class="avatar">${hl(c.name.charAt(0),q)}</div>
+        <div style="flex:1;min-width:0">
+          <div class="card-name">${hl(c.name,q)}</div>
+          <div class="card-meta">${esc(meta)}</div>
+          <div style="display:flex;flex-wrap:wrap;gap:4px;margin-top:4px">
+            ${c.deal?`<span class="deal-badge yes">✅ 成交</span>`:`<span class="deal-badge no">⏳ 未成交</span>`}
+            ${bmi?`<span class="bmi-chip ${bmiCls}">BMI ${bmi.toFixed(1)} ${bmiLbl}</span>`:''}
+            ${remDue?`<span class="deal-badge remind-due">🔔 待關心</span>`:''}
+          </div>
+        </div>
+      </div>
+      ${(c.products||[]).length?`<div style="font-size:0.77rem;color:var(--mid);margin-bottom:8px">🛍️ ${esc((c.products||[]).join('、'))}</div>`:''}
+      <div class="card-tags">${cons}${more}</div>
+      <div class="card-summary">${hl(c.note||c.diet||'',q)}</div>
+      <div class="card-foot">
+        <span>📅 ${esc(c.consult?c.consult.slice(0,10):c.date||'')}</span>
+        <div class="card-acts" onclick="event.stopPropagation()">
+          <button class="ibtn" onclick="editCustomer('${c.id}')">✏️ 編輯</button>
+          <button class="ibtn del" onclick="delCustomer('${c.id}')">🗑️</button>
+        </div>
+      </div>
+    </div>`;
+  }).join('');
+  ct.innerHTML=`顯示 <strong>${list.length}</strong> 位${customers.length!==list.length?`（共 ${customers.length} 位）`:''}`;
+}
+
+function updateHeader(){
+  document.getElementById('hTotal').textContent=customers.length;
+  document.getElementById('hDeal').textContent=customers.filter(c=>c.deal).length;
+  const dc=getDueCount();
+  document.getElementById('hRemind').textContent=dc;
+  const dot=document.getElementById('notifDot');
+  dot.className='notif-dot'+(dc>0?' show':'');
+  const mobDot=document.getElementById('mobNavDot');
+  if(mobDot) mobDot.classList.toggle('show',dc>0);
+  // Monthly revenue
+  const now=new Date();
+  const yr=now.getFullYear(),mo=now.getMonth();
+  const monthly=customers.filter(c=>{
+    if(!c.deal||!c.dealdate)return false;
+    const d=new Date(c.dealdate);
+    return d.getFullYear()===yr&&d.getMonth()===mo;
+  }).reduce((s,c)=>s+(parseInt(c.amount)||0),0);
+  document.getElementById('hMonthly').textContent=monthly>0?'$'+monthly.toLocaleString():'$0';
+}
+
+function renderAll(){renderCards();renderReminders();renderAnalysis();renderAIRemind();updateHeader()}
+
+// ── FILTER / SEARCH ──────────────────────────────────
+function setFilter(type,el){
+  curFilter=type;
+  document.querySelectorAll('.ftag').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');renderCards();
+}
+function doSearch(){curSearch=document.getElementById('searchInput').value;renderCards()}
+
+const PCAT_DEFAULT = {
+  health: { label:'健康維持', icon:'🌿', color:'#6633CC', products: [
+    { name:'益生菌', price:'$1280/30入', tags:['抗過敏.抗病毒專利','體內環保改善失眠','改善異位性皮膚炎'] },
+    { name:'固樂纖', price:'$1680/60顆', tags:['龍鹿二仙膠','補充骨節營養','改善痠痛有感'] },
+    { name:'葉黃素果凍', price:'$680/10入', tags:['游離型葉黃素','美肌抗痘','肌膚緊緻'] },
+    { name:'葉黃素飲', price:'$1080/12入', tags:['游離型葉黃素','抗藍光.防眩光','改善乾眼症專利'] },
+    { name:'正冠茶', price:'$990/20入', tags:['快速清除痰液','提神醒腦好元氣','季節交替流感沒煩惱'] },
+    { name:'9國錠', price:'$680/20錠', tags:['預防酒精胃潰瘍','減少肝負擔','緩解酒後宿醉'] },
+  ]},
+  body: { label:'體態管理', icon:'💪', color:'#CC6600', products: [
+    { name:'纖飄錠', price:'$1480/60錠', tags:['不易形成體脂肪功能','有效降低血脂肪','加速運動代謝'] },
+    { name:'纖纖飲', price:'$1480/14入', tags:['強效溶解脂肪','澱粉人的救星','打造易瘦體質'] },
+    { name:'爆纖錠', price:'$880/120錠', tags:['告別水腫人','每日所需B群','跟經痛說拜拜'] },
+    { name:'纖酵宿', price:'$990/60錠', tags:['排毒、排油、排空','補充蔬果關鍵營養','維持健康腸道功能'] },
+    { name:'肽纖飲', price:'$990/10入', tags:['高纖、高鈣、高維生素C','滿足每天人體需要微量營養成分','提高燃脂效果'] },
+    { name:'厚奶茶', price:'$990/10入', tags:['高纖、高鈣、高維生素C','滿足每天人體需要微量營養成分','提高燃脂效果'] },
+    { name:'雪花紫纖飲', price:'$990/14入', tags:['抑制食慾','穩定血糖','減少發炎','速消水腫'] },
+  ]},
+  beauty: { label:'美容美體', icon:'✨', color:'#CC3377', products: [
+    { name:'水光錠', price:'$1680/60顆', tags:['膠原蛋白','高純度玻尿酸','醫美水光針效果','改善肌膚問題'] },
+    { name:'婕肌零', price:'$990/200ml', tags:['洗.卸.保養三合一','有效改善痘痘及粉刺','清除彩妝吸附毛孔髒污'] },
+    { name:'雪聚露', price:'$1280/120ml', tags:['液態童顏針','刺激膠原蛋白新生','溫和不刺激','保養一瓶搞定'] },
+    { name:'玻尿酸', price:'$990/30ml', tags:['深層補水鎖水','維持肌膚彈性','舒緩肌膚問題'] },
+    { name:'水光面膜', price:'$150/30ml', tags:['溫和不刺激一片有感','醫美級玻尿酸','解決肌膚問題'] },
+    { name:'積雪草護手霜', price:'$680/50ml', tags:['改善手部乾裂','修復滋潤肌膚','有機保濕成分'] },
+    { name:'小白瓶', price:'$1280/100ml', tags:['修復肌膚防止老化','改善身體鬆弛下垂','妊娠紋修復調理'] },
+    { name:'法樂蓬洗髮露', price:'$1280/500ml', tags:['產後落髮','撫平毛躁','減少打結','人體實驗證實4週有效'] },
+    { name:'法樂蓬養髮原液', price:'$1080/30ml', tags:['產後落髮','人體實驗證實4週有效','洗護蓬鬆養髮神器'] },
+  ]},
+};
+const SK_PCAT = 'slim_pcat_v1';
+let PCAT = {};
+function loadPCAT(){
+  try{
+    const r=localStorage.getItem(SK_PCAT);
+    PCAT = r ? JSON.parse(r) : JSON.parse(JSON.stringify(PCAT_DEFAULT));
+  }catch(e){ PCAT = JSON.parse(JSON.stringify(PCAT_DEFAULT)); }
+}
+function savePCAT(){
+  try{ localStorage.setItem(SK_PCAT, JSON.stringify(PCAT)); }catch(e){}
+}
+loadPCAT();
+
+let productStatus = {};
+function loadProductStatus(){
+  try{ const r=localStorage.getItem(SK_PRODSTATUS); if(r) productStatus=JSON.parse(r); }catch(e){}
+}
+function saveProductStatus(){
+  try{ localStorage.setItem(SK_PRODSTATUS, JSON.stringify(productStatus)); }catch(e){}
+}
+loadProductStatus();
+function isProductActive(name){ return productStatus[name] !== false; }
+function getSoldCount(name){ let n=0; customers.forEach(c=>{ if(c.deal && (c.products||[]).includes(name)) n++; }); return n; }
+function jsStr(s){return String(s||'').replace(/\\/g,'\\\\').replace(/'/g,"\\'")}
+
+function renderProductCatalog(){
+  const grid=document.getElementById('prodCatGrid');
+  if(!grid)return;
+  grid.innerHTML=Object.entries(PCAT).map(([key,cat])=>{
+    const total=cat.products.length;
+    const active=cat.products.filter(p=>isProductActive(p.name)).length;
+    const sold=cat.products.reduce((s,p)=>s+getSoldCount(p.name),0);
+    return `<div class="prod-cat-card" style="background:linear-gradient(160deg,var(--white),${cat.color}0D)" onclick="openProdCatModal('${key}')"><div class="prod-cat-icon">${cat.icon}</div><div class="prod-cat-name" style="color:${cat.color}">${esc(cat.label)}</div><div class="prod-cat-count">共 ${total} 項產品</div><div class="prod-cat-sub"><span>🟢 上架 ${active}</span><span>⚪ 下架 ${total-active}</span><span>🛍️ 賣出 ${sold} 次</span></div></div>`;
+  }).join('');
+}
+
+// ── 產品目錄編輯狀態 ──────────────────────────────────
+let currentProdCatKey = null;
+let prodCatEditIdx = null;   // 目前正在編輯第幾項（null＝沒在編輯）
+let prodCatAdding = false;   // 目前是不是在新增模式
+
+function openProdCatModal(key){
+  const cat=PCAT[key];
+  if(!cat)return;
+  currentProdCatKey=key;
+  prodCatEditIdx=null; prodCatAdding=false;
+  document.getElementById('prodCatTitle').textContent=`${cat.icon} ${cat.label}`;
+  renderProdCatModalBody();
+  document.getElementById('prodCatModal').classList.add('open');
+}
+
+function renderProdCatModalBody(){
+  const cat=PCAT[currentProdCatKey];
+  if(!cat)return;
+  let formHtml='';
+  if(prodCatAdding||prodCatEditIdx!==null){
+    const editing=prodCatEditIdx!==null;
+    const p=editing?cat.products[prodCatEditIdx]:{name:'',price:'',tags:[]};
+    formHtml=`<div class="prod-edit-form">
+      <div class="prod-edit-title">${editing?'✏️ 編輯產品':'➕ 新增產品'}</div>
+      <input class="finp" id="pf_name" placeholder="產品名稱" value="${esc(p.name)}" style="margin-bottom:8px;width:100%;box-sizing:border-box">
+      <input class="finp" id="pf_price" placeholder="價格，如：$990/10入" value="${esc(p.price)}" style="margin-bottom:8px;width:100%;box-sizing:border-box">
+      <input class="finp" id="pf_tags" placeholder="賣點標籤，用逗號分隔" value="${esc((p.tags||[]).join('、'))}" style="margin-bottom:10px;width:100%;box-sizing:border-box">
+      <div style="display:flex;gap:8px">
+        <button class="btn-cancel" onclick="cancelProdEdit()">取消</button>
+        <button class="btn-save" onclick="saveProdEdit()">儲存</button>
+      </div>
+    </div>`;
+  }
+  const addBtnHtml=(!prodCatAdding&&prodCatEditIdx===null)?`<button class="prod-add-new-btn" onclick="startAddProduct()">➕ 新增產品</button>`:'';
+  document.getElementById('prodCatBody').innerHTML=addBtnHtml+formHtml+`<div class="prod-list">${cat.products.map((p,idx)=>{
+    const sold=getSoldCount(p.name);
+    const active=isProductActive(p.name);
+    return `<div class="prod-list-item ${active?'':'inactive'}"><div class="prod-item-top"><div class="prod-item-name">${esc(p.name)}</div><div class="prod-item-price">${esc(p.price)}</div></div><div class="prod-item-tags">${(p.tags||[]).map(t=>`<span class="prod-item-tag">${esc(t)}</span>`).join('')}</div><div class="prod-item-foot"><span class="prod-sold-badge ${sold===0?'zero':''}">🛍️ 已賣出 ${sold} 次</span><div style="display:flex;gap:6px;align-items:center;flex-wrap:wrap"><span class="prod-status-toggle ${active?'on':'off'}" onclick="toggleProductStatus('${jsStr(p.name)}',this)">${active?'🟢 上架中／常備':'⚪ 已下架'}</span><button class="prod-edit-btn" onclick="startEditProduct(${idx})">✏️ 編輯</button><button class="prod-del-btn" onclick="delProductFromCat('${currentProdCatKey}',${idx})">🗑️ 刪除</button></div></div></div>`;
+  }).join('')}</div>`;
+}
+
+function startAddProduct(){ prodCatAdding=true; prodCatEditIdx=null; renderProdCatModalBody(); }
+function startEditProduct(idx){ prodCatEditIdx=idx; prodCatAdding=false; renderProdCatModalBody(); }
+function cancelProdEdit(){ prodCatAdding=false; prodCatEditIdx=null; renderProdCatModalBody(); }
+
+function saveProdEdit(){
+  const name=document.getElementById('pf_name').value.trim();
+  const price=document.getElementById('pf_price').value.trim();
+  const tagsStr=document.getElementById('pf_tags').value.trim();
+  if(!name){ showToast('⚠️ 請輸入產品名稱'); return; }
+  const tags=tagsStr?tagsStr.split(/[,，、]/).map(s=>s.trim()).filter(Boolean):[];
+  const cat=PCAT[currentProdCatKey];
+  if(prodCatEditIdx!==null){
+    cat.products[prodCatEditIdx]={name,price,tags};
+    showToast('✅ 已更新產品');
+  }else{
+    cat.products.push({name,price,tags});
+    showToast('✅ 已新增產品');
+  }
+  savePCAT();
+  prodCatAdding=false; prodCatEditIdx=null;
+  renderProdCatModalBody();
+  renderProductCatalog();
+}
+
+function delProductFromCat(catKey,idx){
+  const cat=PCAT[catKey];
+  const p=cat&&cat.products[idx];
+  if(!p)return;
+  pendingDeleteType='product';
+  pendingDeleteProd={catKey,idx};
+  document.getElementById('delName').textContent=p.name;
+  document.getElementById('delModal').classList.add('open');
+}
+
+function toggleProductStatus(name,el){
+  const current=isProductActive(name);
+  productStatus[name]=!current;
+  saveProductStatus();
+  const nowActive=!current;
+  el.classList.toggle('on',nowActive);
+  el.classList.toggle('off',!nowActive);
+  el.textContent=nowActive?'🟢 上架中／常備':'⚪ 已下架';
+  el.closest('.prod-list-item').classList.toggle('inactive',!nowActive);
+  renderProductCatalog();
+}
+
+// ── TABS ──────────────────────────────────
+function switchTab(name,el){
+  document.querySelectorAll('.tab-content').forEach(t=>t.classList.remove('active'));
+  document.querySelectorAll('.nav-tab').forEach(t=>t.classList.remove('active'));
+  document.getElementById('tab-'+name).classList.add('active');
+  if(el) el.classList.add('active');
+  document.querySelectorAll('.mob-nav-btn').forEach(b=>b.classList.toggle('active',b.getAttribute('data-tab')===name));
+  if(name==='reminders')renderReminders();
+  if(name==='analysis')renderAnalysis();
+  if(name==='products')renderProductCatalog();
+  if(name==='airemind')renderAIRemind();
+}
+function switchTabMob(name,el){
+  switchTab(name,null);
+}
+
+// ── MODAL ──────────────────────────────────
+function openAddModal(){
+  editId=null;dealValue=null;prodList=[];
+  document.getElementById('modalTitle').textContent='📋 新增客戶諮詢資料';
+  clearForm();
+  document.getElementById('addModal').classList.add('open');
+}
+function closeModal(id){document.getElementById(id).classList.remove('open')}
+
+function clearForm(){
+  ['f_name','f_age','f_height','f_weight','f_fat','f_contact','f_consult',
+   'f_bowel','f_exercise','f_sleep','f_water','f_work','f_diet','f_meals',
+   'f_past_products','f_past_diet','f_meds','f_disease','f_note',
+   'f_amount','f_dealdate','f_arrivaldate','f_carenote',
+   'f_slimkg','f_extragoalnote'].forEach(id=>{
+    const el=document.getElementById(id);if(el)el.value='';
+  });
+  setRemindPresets([]);
+  setCareTrack('chk_healthEdu',false);
+  setCareTrack('chk_slimClass',false);
+  setExtraGoals([]);
+  setBirth('','','');
+  setSlimParts([]);
+  updateCareNoteCount();
+  var ns=document.getElementById('noSaleSection');if(ns)ns.style.display='none';
+  var ciw=document.getElementById('consultItemsWrap');if(ciw)ciw.innerHTML='';
+  var ipw=document.getElementById('intentProdsWrap');if(ipw)ipw.innerHTML='';
+  document.getElementById('bmiDisplay').innerHTML='<span style="color:var(--soft)">填入身高體重後自動計算</span>';
+  document.getElementById('dealYes').classList.remove('selected');
+  document.getElementById('dealNo').classList.remove('selected');
+  document.getElementById('dealSection').style.display='none';
+  dealValue=null;prodList=[];renderProdTags();
+  Object.keys(CM).forEach(key=>{
+    const el=document.getElementById(key);
+    if(el){el.querySelector('input').checked=false;el.classList.remove('checked')}
+  });
+}
+
+function setDeal(v){
+  dealValue=v;
+  document.getElementById('dealYes').classList.toggle('selected',v===true);
+  document.getElementById('dealNo').classList.toggle('selected',v===false);
+  document.getElementById('dealSection').style.display=v===true?'block':'none';
+  var ns=document.getElementById('noSaleSection');
+  if(ns) ns.style.display=v===false?'block':'none';
+  if(v===false){
+    renderNoSalePicker('consultItemsWrap','ci',[]);
+    renderNoSalePicker('intentProdsWrap','ip',[]);
+  }
+}
+
+function addProduct(){
+  const inp=document.getElementById('prodInput');
+  const val=inp.value.trim();
+  if(!val)return;
+  if(!prodList.includes(val))prodList.push(val);
+  inp.value='';renderProdTags();
+}
+function removeProduct(p){prodList=prodList.filter(x=>x!==p);renderProdTags()}
+function renderProdTags(){
+  document.getElementById('prodTags').innerHTML=prodList.map(p=>
+    `<span class="prod-tag">${esc(p)}<button class="prod-tag-del" onclick="removeProduct('${esc(p)}')">×</button></span>`
+  ).join('');
+}
+
+// ── 成交產品選擇器 ──
+let pickerSelection = [];
+let pickerCat = null;
+function openProductPicker(){
+  pickerSelection = [...prodList];
+  pickerCat = Object.keys(PCAT)[0];
+  renderPickerTabs();
+  renderPickerList();
+  document.getElementById('prodPickerModal').classList.add('open');
+}
+function renderPickerTabs(){
+  document.getElementById('pickerCatTabs').innerHTML = Object.entries(PCAT).map(([key,cat])=>`<span class="picker-cat-tab ${key===pickerCat?'active':''}" onclick="switchPickerCat('${key}')">${cat.icon} ${esc(cat.label)}</span>`).join('');
+}
+function switchPickerCat(key){ pickerCat = key; renderPickerTabs(); renderPickerList(); }
+function renderPickerList(){
+  const cat = PCAT[pickerCat];
+  const list = document.getElementById('pickerList');
+  if(!cat || !cat.products.length){ list.innerHTML = `<div class="picker-empty">這個類別還沒有產品</div>`; return; }
+  list.innerHTML = cat.products.map(p=>{
+    const selected = pickerSelection.includes(p.name);
+    const active = isProductActive(p.name);
+    return `<div class="picker-item ${selected?'selected':''}" onclick="togglePickerItem('${jsStr(p.name)}')"><div class="picker-item-top"><div class="picker-item-name"><span class="picker-item-check">✓</span>${esc(p.name)}</div><div class="picker-item-price">${esc(p.price)}</div></div><div class="picker-item-tags">${p.tags.map(t=>`<span class="picker-item-tag">${esc(t)}</span>`).join('')}</div>${active?'':'<div class="picker-inactive-note">⚪ 此產品目前已下架</div>'}</div>`;
+  }).join('');
+}
+function togglePickerItem(name){
+  if(pickerSelection.includes(name)){ pickerSelection = pickerSelection.filter(x=>x!==name); }
+  else{ pickerSelection.push(name); }
+  renderPickerList();
+}
+function confirmProductPicker(){ prodList = [...pickerSelection]; renderProdTags(); closeModal('prodPickerModal'); }
+
+function toggleChk(inp){
+  const lbl=inp.closest('label');
+  inp.checked?lbl.classList.add('checked'):lbl.classList.remove('checked');
+}
+
+// 手機上點「隱藏 checkbox + label 當按鈕」這種樣式（困擾勾選、生產經驗、額外目標、
+// 未成交意向、售後提醒天數、關心追蹤...等）常常要點兩次才會反應，靠瀏覽器原生的
+// label 連動 checkbox 不夠可靠。改成跟網站裡本來就穩定好用的「上架/下架」按鈕
+// 一樣的做法：直接在每個 label 上寫 onclick，點下去就同步手動切換，不繞路、
+// 不靠瀏覽器自己連動、不靠事件冒泡到 document 才處理，最直接可靠。
+function manualToggleLabel(e, lbl){
+  const inp=lbl.querySelector('input[type="checkbox"], input[type="radio"]');
+  if(!inp)return;
+  e.preventDefault();
+  e.stopPropagation();
+  if(inp.type==='radio'){
+    if(inp.name){
+      document.querySelectorAll('input[type="radio"][name="'+inp.name+'"]').forEach(function(r){
+        if(r!==inp){ r.checked=false; r.dispatchEvent(new Event('change',{bubbles:true})); }
+      });
+    }
+    inp.checked=true;
+  }else{
+    inp.checked=!inp.checked;
+  }
+  inp.dispatchEvent(new Event('change',{bubbles:true}));
+}
+
+function getCheckedConcerns(){
+  return Object.keys(CM).filter(k=>{const el=document.getElementById(k);return el&&el.querySelector('input').checked});
+}
+
+function fillForm(c){
+  const F={f_name:'name',f_age:'age',f_height:'height',f_weight:'weight',f_fat:'fat',
+    f_contact:'contact',f_consult:'consult',f_bowel:'bowel',f_exercise:'exercise',
+    f_sleep:'sleep',f_water:'water',f_work:'work',f_diet:'diet',f_meals:'meals',
+    f_past_products:'past_products',f_past_diet:'past_diet',f_meds:'meds',
+    f_disease:'disease',f_note:'note',f_amount:'amount',f_dealdate:'dealdate',
+    f_arrivaldate:'arrivaldate',f_carenote:'carenote',
+    f_slimkg:'slimKg',f_extragoalnote:'dealExtraNote'};
+  Object.entries(F).forEach(([fid,ck])=>{
+    const el=document.getElementById(fid);
+    if(!el)return;
+    el.value=c[ck]||'';
+  });
+  setRemindPresets(c.reminds||[]);
+  setCareTrack('chk_healthEdu',!!c.healthEdu);
+  setCareTrack('chk_slimClass',!!c.slimClass);
+  setExtraGoals(c.dealExtraGoals||[]);
+  setBirth(c.birthStatus||'',c.birthCount||'',c.birthAfter||'');
+  setSlimParts(c.slimParts||[]);
+  updateCareNoteCount();
+  setDeal(c.deal===true);
+  if(c.deal===false){
+    renderNoSalePicker('consultItemsWrap','ci',c.consultItems||[]);
+    renderNoSalePicker('intentProdsWrap','ip',c.intentProducts||[]);
+  }
+  prodList=[...(c.products||[])];renderProdTags();
+  calcBMI();
+  Object.keys(CM).forEach(k=>{
+    const el=document.getElementById(k);if(!el)return;
+    const ch=(c.concerns||[]).includes(k);
+    el.querySelector('input').checked=ch;
+    ch?el.classList.add('checked'):el.classList.remove('checked');
+  });
+}
+
+function saveCustomer(){
+  const name=document.getElementById('f_name').value.trim();
+  if(!name){showToast('⚠️ 請填寫客戶姓名');return}
+  const reminds=getRemindPresets();
+  const data={
+    id:editId||'c'+Date.now(),name,
+    age:document.getElementById('f_age').value,
+    height:document.getElementById('f_height').value,
+    weight:document.getElementById('f_weight').value,
+    fat:document.getElementById('f_fat').value,
+    contact:document.getElementById('f_contact').value,
+    consult:document.getElementById('f_consult').value,
+    bowel:document.getElementById('f_bowel').value,
+    exercise:document.getElementById('f_exercise').value,
+    sleep:document.getElementById('f_sleep').value,
+    water:document.getElementById('f_water').value,
+    work:document.getElementById('f_work').value,
+    diet:document.getElementById('f_diet').value,
+    meals:document.getElementById('f_meals').value,
+    birthStatus:getBirthStatus(),
+    birthCount:document.getElementById('f_birthcount').value,
+    birthAfter:document.getElementById('f_birthafter').value,
+    slimParts:getSlimParts(),
+    slimKg:document.getElementById('f_slimkg').value,
+    past_products:document.getElementById('f_past_products').value,
+    past_diet:document.getElementById('f_past_diet').value,
+    meds:document.getElementById('f_meds').value,
+    disease:document.getElementById('f_disease').value,
+    deal:dealValue===true,
+    products:[...prodList],
+    amount:document.getElementById('f_amount').value,
+    dealdate:document.getElementById('f_dealdate').value,
+    arrivaldate:document.getElementById('f_arrivaldate').value,
+    reminds,
+    healthEdu:document.getElementById('chk_healthEdu').querySelector('input').checked,
+    slimClass:document.getElementById('chk_slimClass').querySelector('input').checked,
+    dealExtraGoals:dealValue===true?getExtraGoals():[],
+    dealExtraNote:dealValue===true?(document.getElementById('f_extragoalnote')||{}).value||'':'',
+    note:document.getElementById('f_note').value,
+    carenote:document.getElementById('f_carenote').value,
+    consultItems:dealValue===false?getNosaleProds('ci'):[],
+    intentProducts:dealValue===false?getNosaleProds('ip'):[],
+    concerns:getCheckedConcerns(),
+    date:editId?(customers.find(c=>c.id===editId)?.date||today()):today(),
+  };
+  if(editId){
+    const i=customers.findIndex(c=>c.id===editId);
+    if(i!==-1)customers[i]=data;
+    showToast('✅ 已更新客戶資料');
+  }else{
+    customers.unshift(data);showToast('🌟 已新增客戶資料');
+  }
+  save();closeModal('addModal');renderAll();
+}
+
+function editCustomer(id){
+  const c=customers.find(x=>x.id===id);if(!c)return;
+  editId=id;dealValue=null;prodList=[];
+  document.getElementById('modalTitle').textContent=`✏️ 編輯客戶：${c.name}`;
+  clearForm();fillForm(c);
+  closeModal('detailModal');
+  document.getElementById('addModal').classList.add('open');
+}
+function editFromDetail(){if(viewId)editCustomer(viewId)}
+
+let pendingDeleteId = null;
+let pendingDeleteType = 'customer'; // 'customer' | 'product'
+let pendingDeleteProd = null; // {catKey, idx}
+function delCustomer(id){
+  const c=customers.find(x=>x.id===id);if(!c)return;
+  pendingDeleteType='customer';
+  pendingDeleteId=id;
+  document.getElementById('delName').textContent=c.name;
+  document.getElementById('delModal').classList.add('open');
+}
+function closeDelModal(){
+  document.getElementById('delModal').classList.remove('open');
+  pendingDeleteId=null;
+  pendingDeleteProd=null;
+}
+function confirmDelete(){
+  if(pendingDeleteType==='product'){
+    if(!pendingDeleteProd)return;
+    const {catKey,idx}=pendingDeleteProd;
+    const cat=PCAT[catKey];
+    if(cat&&cat.products[idx]){
+      cat.products.splice(idx,1);
+      savePCAT();
+      prodCatEditIdx=null;prodCatAdding=false;
+      renderProdCatModalBody();
+      renderProductCatalog();
+      showToast('🗑️ 已刪除產品');
+    }
+    closeDelModal();
+    return;
+  }
+  if(!pendingDeleteId)return;
+  customers=customers.filter(c=>c.id!==pendingDeleteId);
+  save();closeDelModal();renderAll();
+  showToast('🗑️ 已刪除客戶資料');
+}
+
+function viewCustomer(id){
+  const c=customers.find(x=>x.id===id);if(!c)return;
+  viewId=id;
+  const bmi=getBMI(c);
+  const concerns=(c.concerns||[]);
+  const byType={};
+  concerns.forEach(k=>{const i=CM[k];if(!i)return;(byType[i.t]=byType[i.t]||[]).push(i.l)});
+  const typeMap={skin:'🩷 皮膚狀況',fat:'🟠 肥胖問題',inner:'💜 體內保養',female:'🌸 女性困擾',extra:'💙 額外需求'};
+  let ch='';
+  Object.entries(byType).forEach(([t,ls])=>{
+    const col=TC[t]||TC.extra;
+    ch+=`<div style="margin-bottom:10px"><div style="font-size:0.78rem;font-weight:700;color:${col.c};margin-bottom:5px">${typeMap[t]||t}</div>
+    <div style="display:flex;flex-wrap:wrap;gap:5px">${ls.map(l=>`<span class="ctag" style="background:${col.bg};color:${col.c}">${esc(l)}</span>`).join('')}</div></div>`;
+  });
+  const dr=(l,v)=>v?`<div class="drow"><div class="drow-lbl">${esc(l)}</div><div class="drow-val">${esc(v)}</div></div>`:'';
+  document.getElementById('detailTitle').textContent=`👤 ${c.name} 的諮詢資料`;
+  document.getElementById('detailBody').innerHTML=`
+    <div class="fsec">
+      <div class="fsec-title">🌸 基本資料</div>
+      <div class="detail-grid">
+        <div class="ditem"><div class="ditem-lbl">姓名</div><div class="ditem-val">${esc(c.name)}</div></div>
+        <div class="ditem"><div class="ditem-lbl">年齡</div><div class="ditem-val">${esc(c.age||'—')} 歲</div></div>
+        <div class="ditem"><div class="ditem-lbl">身高</div><div class="ditem-val">${esc(c.height||'—')} cm</div></div>
+        <div class="ditem"><div class="ditem-lbl">體重</div><div class="ditem-val">${esc(c.weight||'—')} kg</div></div>
+        <div class="ditem"><div class="ditem-lbl">體脂</div><div class="ditem-val">${esc(c.fat||'—')} %</div></div>
+        ${bmi?`<div class="ditem"><div class="ditem-lbl">BMI</div><div class="ditem-val"><span class="bmi-chip ${getBMIClass(bmi)}">${bmi.toFixed(1)} ${getBMILabel(bmi)}</span></div></div>`:''}
+      </div>
+      ${dr('聯絡方式',c.contact)}
+      ${dr('諮詢時間',c.consult?c.consult.replace('T',' '):'')}
+      ${dr('生產經驗',c.birthStatus?c.birthStatus+(c.birthStatus==='有'?' / '+[c.birthCount?c.birthCount+'胎':'',c.birthAfter?'產後'+c.birthAfter:''].filter(x=>x).join('、'):''):'—')}
+    </div>
+    <div class="fsec">
+      <div class="fsec-title">💰 成交資訊</div>
+      <div style="margin-bottom:10px">${c.deal?`<span class="deal-badge yes">✅ 已成交</span>`:`<span class="deal-badge no">⏳ 尚未成交</span>`}</div>
+      ${c.deal?`${dr('成交日期',c.dealdate)}
+        ${dr('到貨日期',c.arrivaldate?c.arrivaldate+' 📦':'')}
+        ${(c.products||[]).length?`<div class="drow"><div class="drow-lbl">成交產品</div><div style="display:flex;flex-wrap:wrap;gap:5px;margin-top:4px">${(c.products||[]).map(p=>`<span class="prod-tag">${esc(p)}</span>`).join('')}</div></div>`:''}
+        ${dr('成交金額',c.amount?'$'+parseInt(c.amount).toLocaleString():'')}
+        ${(c.reminds||[]).length?`<div class="drow"><div class="drow-lbl">售後提醒</div><div class="drow-val">到貨後第 ${(c.reminds||[]).join('、')} 天</div></div>`:''}
+        <div class="drow"><div class="drow-lbl">售後追蹤</div><div class="drow-val" style="display:flex;gap:8px;flex-wrap:wrap">
+          <span style="padding:3px 10px;border-radius:20px;font-size:0.78rem;font-weight:700;${c.healthEdu?'background:#E8FFE8;color:#2D8C3C':'background:#F5F5F5;color:#AAAAAA'}">${c.healthEdu?'✅ 已進行衛教':'⬜ 未進行衛教'}</span>
+          <span style="padding:3px 10px;border-radius:20px;font-size:0.78rem;font-weight:700;${c.slimClass?'background:#E8F0FF;color:#2255AA':'background:#F5F5F5;color:#AAAAAA'}">${c.slimClass?'✅ 已報名纖體班':'⬜ 未報名纖體班'}</span>
+        </div></div>`:''}
+    </div>
+    <div class="fsec">
+      <div class="fsec-title">🌙 生活習慣</div>
+      ${dr('排便頻率',c.bowel)}${dr('運動習慣',c.exercise)}${dr('睡眠時間',c.sleep)}
+      ${dr('每日飲水',c.water)}${dr('工作性質',c.work)}${dr('每日飲食概況',c.diet)}
+      ${c.meals?`<div class="drow"><div class="drow-lbl">具體三餐</div><div class="drow-val" style="white-space:pre-wrap;line-height:1.7">${esc(c.meals)}</div></div>`:''}
+    </div>
+    ${(c.slimParts||[]).length||c.slimKg?`<div class="fsec"><div class="fsec-title">🎯 瘦身目標</div>
+      ${(c.slimParts||[]).length?`<div class="drow"><div class="drow-lbl">想瘦部位</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-top:4px">${(c.slimParts||[]).map(p=>`<span class="prod-tag">${esc(p)}</span>`).join('')}</div></div>`:''}
+      ${dr('想瘦公斤',c.slimKg?c.slimKg+' 公斤':'')}
+    </div>`:''}
+    <div class="fsec">
+      <div class="fsec-title">💊 過去紀錄</div>
+      ${dr('曾用減肥產品',c.past_products)}${dr('曾試過方式',c.past_diet)}
+      ${dr('目前用藥',c.meds)}${dr('現有疾病',c.disease)}
+    </div>
+    ${c.deal&&(c.dealExtraGoals||[]).length?`<div class="fsec"><div class="fsec-title">🎯 其他想改善的問題</div><div style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:${c.dealExtraNote?'10px':'0'}">${(c.dealExtraGoals||[]).map(g=>`<span class="prod-tag" style="background:#FFF3D0;border-color:var(--honey);color:var(--brown)">${esc(g)}</span>`).join('')}</div>${c.dealExtraNote?`<div style="font-size:0.83rem;line-height:1.7;color:var(--mid);white-space:pre-wrap;background:#FFFBEC;border-radius:8px;padding:10px 12px;border:1.5px solid var(--border)">${esc(c.dealExtraNote)}</div>`:''}</div>`:''}
+    ${!c.deal&&(c.consultItems||[]).length?`<div class="fsec"><div class="fsec-title">🛒 諮詢項目</div><div style="display:flex;flex-wrap:wrap;gap:6px">${(c.consultItems||[]).map(p=>`<span class="prod-tag">${esc(p)}</span>`).join('')}</div></div>`:''}
+    ${!c.deal&&(c.intentProducts||[]).length?`<div class="fsec"><div class="fsec-title">💡 最有購買意向</div><div style="display:flex;flex-wrap:wrap;gap:6px">${(c.intentProducts||[]).map(p=>`<span class="prod-tag" style="background:#FFF0F0;border-color:#FFB0B0;color:#CC3333">${esc(p)}</span>`).join('')}</div></div>`:''}
+    ${ch?`<div class="fsec"><div class="fsec-title">🎯 想改善的問題</div>${ch}</div>`:''}
+    ${c.note?`<div class="fsec"><div class="fsec-title">📝 備註</div><div style="font-size:0.85rem;line-height:1.7;white-space:pre-wrap;color:var(--brown)">${esc(c.note)}</div></div>`:''}
+    ${c.carenote?`<div class="fsec"><div class="fsec-title">🍽️ 客製化吃法 ／ 注意事項</div><div style="font-size:0.85rem;line-height:1.85;white-space:pre-wrap;color:var(--brown);background:#FFFBEC;border-radius:12px;padding:14px 16px;border:1.5px solid var(--border)">${esc(c.carenote)}</div></div>`:''}
+  `;
+  document.getElementById('detailModal').classList.add('open');
+}
+
+// ── UTILS ──────────────────────────────────
+function today(){return new Date().toISOString().slice(0,10)}
+function showToast(msg){
+  const t=document.getElementById('toast');t.textContent=msg;t.classList.add('show');
+  setTimeout(()=>t.classList.remove('show'),2600);
+}
+function toggleNotifInfo(){
+  const items=getRemindItems().filter(x=>x.diff<=7);
+  if(items.length===0){showToast('🎉 目前沒有待關心的客戶');return}
+  showToast(`🔔 有 ${items.length} 位客戶需要關心！`);
+  setTimeout(()=>{
+    switchTab('reminders', document.querySelectorAll('.nav-tab')[1]);
+    renderReminders();
+  },800);
+}
+
+document.querySelectorAll('.overlay').forEach(o=>{
+  o.addEventListener('click',function(e){if(e.target===this)this.classList.remove('open')});
+});
+document.getElementById('delModal').addEventListener('click',function(e){
+  if(e.target===this)closeDelModal();
+});
+
+// Set default consult datetime to now when opening modal
+document.getElementById('addModal').addEventListener('transitionend',()=>{});
+const origOpenAdd=window.openAddModal;
+
+// ── INIT ──────────────────────────────────
+load(); // async，自動雲端同步
+
+// Set default datetime for new customers
+const origOpen=openAddModal;
+window.openAddModal=function(){
+  origOpen();
+  const now=new Date();
+  const local=new Date(now.getTime()-now.getTimezoneOffset()*60000).toISOString().slice(0,16);
+  document.getElementById('f_consult').value=local;
+};
+
+// ── BACKUP & RESTORE ──────────────────────────────────
+function exportBackup(){
+  const now=new Date();
+  const stamp=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+  const payload={version:'v3',exported:now.toISOString(),count:customers.length,customers};
+  const blob=new Blob([JSON.stringify(payload,null,2)],{type:'application/json'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`書琳客戶備份_${stamp}.json`;
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  showBackupStatus(`✅ 已匯出 ${customers.length} 位客戶的備份檔！請存到 Google 雲端或手機相冊。`,'ok');
+  showToast(`📤 備份成功！共 ${customers.length} 位客戶`);
+}
+
+function exportExcel(){
+  function csvCell(v){
+    let s=String(v==null?'':v);
+    if(s.includes('"'))s=s.replace(/"/g,'""');
+    if(s.includes(',')||s.includes('"')||s.includes('\n')||s.includes('\r'))s='"'+s+'"';
+    return s;
+  }
+  const headers=['姓名','年齡','身高(cm)','體重(kg)','體脂(%)','聯絡方式','諮詢日期',
+    '有無生產','生產胎數','產後多久',
+    '是否成交','成交產品','成交金額','成交日期','到貨日期','售後提醒天數(天)',
+    '已成交後改善目標','改善目標備註','想瘦部位','目標公斤數','參加衛教','參加瘦身班',
+    '排便','運動','睡眠','喝水','三餐','工作','飲食',
+    '過去使用產品','過去減肥方式','服用藥物','疾病史',
+    '困擾勾選','未成交諮詢意向項目','未成交意向產品',
+    '備註／跟進紀錄','關心紀錄','建檔日期'];
+  const rows=customers.map(c=>[
+    c.name||'',c.age||'',c.height||'',c.weight||'',c.fat||'',c.contact||'',(c.consult||'').slice(0,10),
+    c.birthStatus||'',c.birthCount||'',c.birthAfter||'',
+    c.deal?'是':'否',(c.products||[]).join('、'),c.amount||'',c.dealdate||'',c.arrivaldate||'',(c.reminds||[]).join('/'),
+    (c.dealExtraGoals||[]).join('、'),c.dealExtraNote||'',(c.slimParts||[]).join('、'),c.slimKg||'',
+    c.healthEdu?'是':'否',c.slimClass?'是':'否',
+    c.bowel||'',c.exercise||'',c.sleep||'',c.water||'',c.meals||'',c.work||'',c.diet||'',
+    c.past_products||'',c.past_diet||'',c.meds||'',c.disease||'',
+    (c.concerns||[]).map(k=>(CM[k]&&CM[k].l)||k).join('、'),
+    (c.consultItems||[]).join('、'),(c.intentProducts||[]).join('、'),
+    c.note||'',c.carenote||'',c.date||''
+  ]);
+  const lines=[headers,...rows].map(r=>r.map(csvCell).join(','));
+  const csv='﻿'+lines.join('\r\n');
+  const now=new Date();
+  const stamp=`${now.getFullYear()}${String(now.getMonth()+1).padStart(2,'0')}${String(now.getDate()).padStart(2,'0')}`;
+  const blob=new Blob([csv],{type:'text/csv;charset=utf-8'});
+  const url=URL.createObjectURL(blob);
+  const a=document.createElement('a');
+  a.href=url;a.download=`書琳客戶名單_${stamp}.csv`;
+  document.body.appendChild(a);a.click();
+  document.body.removeChild(a);URL.revokeObjectURL(url);
+  showToast(`📊 已匯出 Excel！共 ${customers.length} 位客戶`);
+}
+
+function importBackup(e){
+  const file=e.target.files[0];if(!file)return;
+  const reader=new FileReader();
+  reader.onload=function(ev){
+    try{
+      const data=JSON.parse(ev.target.result);
+      let list=[];
+      if(Array.isArray(data))list=data;
+      else if(data.customers&&Array.isArray(data.customers))list=data.customers;
+      else throw new Error('格式錯誤');
+      if(list.length===0)throw new Error('備份檔裡沒有客戶資料');
+      if(!confirm(`找到 ${list.length} 位客戶的備份資料。\n\n⚠️ 匯入後會【取代】現有的 ${customers.length} 位客戶資料。\n\n確定要還原嗎？`))return;
+      customers=list;save();renderAll();
+      showBackupStatus(`✅ 成功還原 ${list.length} 位客戶的資料！`,'ok');
+      showToast(`📥 還原成功！共 ${list.length} 位客戶`);
+    }catch(err){
+      showBackupStatus(`❌ 還原失敗：${err.message}，請確認選擇的是正確的備份檔案。`,'err');
+      showToast('❌ 還原失敗，請確認檔案格式');
+    }
+    e.target.value='';
+  };
+  reader.readAsText(file,'utf-8');
+}
+
+function copyBackupCode(){
+  const payload=JSON.stringify({version:'v3',exported:new Date().toISOString(),count:customers.length,customers});
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(payload).then(()=>{
+      showBackupStatus(`✅ 備份碼已複製！共 ${customers.length} 位客戶。請貼到 Line 自己或記事本保存。`,'ok');
+      showToast('📋 備份碼已複製！');
+    }).catch(()=>fallbackCopy(payload));
+  }else{fallbackCopy(payload)}
+}
+
+function fallbackCopy(text){
+  const ta=document.createElement('textarea');
+  ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+  document.body.appendChild(ta);ta.select();
+  document.execCommand('copy');
+  document.body.removeChild(ta);
+  showBackupStatus(`✅ 備份碼已複製！共 ${customers.length} 位客戶。`,'ok');
+  showToast('📋 備份碼已複製！');
+}
+
+function restoreFromCode(){
+  const code=document.getElementById('pasteCode').value.trim();
+  if(!code){showBackupStatus('❌ 請先貼上備份碼','err');return}
+  try{
+    const data=JSON.parse(code);
+    let list=[];
+    if(Array.isArray(data))list=data;
+    else if(data.customers&&Array.isArray(data.customers))list=data.customers;
+    else throw new Error('格式不符');
+    if(list.length===0)throw new Error('備份碼內沒有客戶資料');
+    if(!confirm(`找到 ${list.length} 位客戶的備份資料。\n\n⚠️ 匯入後會【取代】現有的 ${customers.length} 位客戶資料。\n\n確定要還原嗎？`))return;
+    customers=list;save();renderAll();
+    document.getElementById('pasteCode').value='';
+    showBackupStatus(`✅ 成功還原 ${list.length} 位客戶的資料！`,'ok');
+    showToast(`🔑 還原成功！共 ${list.length} 位客戶`);
+  }catch(err){
+    showBackupStatus(`❌ 備份碼格式有誤：${err.message}`,'err');
+    showToast('❌ 備份碼格式有誤');
+  }
+}
+
+function showBackupStatus(msg,type){
+  const el=document.getElementById('backupStatus');
+  el.textContent=msg;el.className='backup-status '+type;
+  setTimeout(()=>{el.className='backup-status'},6000);
+}
+
+// ── SPLASH SCREEN ──────────────────────────────────
+const QUOTES = [
+  { q:'每一位妳幫助的客戶，\n都是<em>最棒的自己</em>的起點', s:'—— 你是她們改變的那道光 🌟' },
+  { q:'健康不是終點，\n是<em>每一個今天</em>的選擇', s:'—— 一小步也是在前進 🌿' },
+  { q:'妳的努力，\n客戶的<em>自信</em>都記得', s:'—— 謝謝妳每天的用心 💛' },
+  { q:'美麗由內而外，\n妳幫她們找到<em>最閃的樣子</em>', s:'—— 每個人都值得被好好照顧 🌸' },
+  { q:'今天的諮詢，\n可能是她<em>人生轉捩點</em>', s:'—— 用心的妳，真的很了不起 ✨' },
+  { q:'成功不是偶然，\n是<em>一次又一次</em>的溫柔堅持', s:'—— 妳做得很好，繼續加油 🍀' },
+  { q:'每個諮詢背後，\n都是一個想要<em>變更好</em>的靈魂', s:'—— 妳的工作很有意義 💪' },
+  { q:'幫助別人變美，\n妳自己也<em>散發光芒</em>', s:'—— 今天也是美好的一天 🌻' },
+  { q:'不是她們需要妳，\n是妳<em>值得被她們信任</em>', s:'—— 繼續做那個溫暖的人 🤍' },
+  { q:'每一個小改變，\n都是<em>大蛻變</em>的開始', s:'—— 相信過程，相信自己 🦋' },
+];
+
+const GREETINGS_AM = ['早安！今天也要元氣滿滿 ☀️','早安！新的一天，新的可能 🌤','早安！今天也要閃閃發光 ✨'];
+const GREETINGS_PM = ['午安！記得喝水休息一下 💧','午安！下午也繼續加油 💪','午安！好好吃飯再出發 🍱'];
+const GREETINGS_EVE = ['晚安前來看看今日成果了嗎？🌙','傍晚囉，辛苦了一天 🌅','今天也努力了，謝謝自己 🌙'];
+
+function getSplashGreeting(){
+  const h = new Date().getHours();
+  if(h < 12) return GREETINGS_AM[Math.floor(Math.random()*GREETINGS_AM.length)];
+  if(h < 17) return GREETINGS_PM[Math.floor(Math.random()*GREETINGS_PM.length)];
+  return GREETINGS_EVE[Math.floor(Math.random()*GREETINGS_EVE.length)];
+}
+
+function initSplash(){
+  // pick random quote
+  const q = QUOTES[Math.floor(Math.random()*QUOTES.length)];
+  document.getElementById('splashQuote').innerHTML = q.q.replace(/\n/g,'<br>');
+  document.getElementById('splashSub').textContent = q.s;
+  document.getElementById('splashGreeting').textContent = getSplashGreeting();
+
+  // date
+  const now = new Date();
+  const days = ['日','一','二','三','四','五','六'];
+  document.getElementById('splashDate').textContent =
+    `${now.getFullYear()} 年 ${now.getMonth()+1} 月 ${now.getDate()} 日　星期${days[now.getDay()]}`;
+
+  // confetti
+  const colors = ['#FFD93D','#FF85A1','#6BCB77','#4D96FF','#C77DFF','#FFB347','#FF6B6B'];
+  const wrap = document.getElementById('confettiWrap');
+  for(let i=0;i<22;i++){
+    const dot = document.createElement('div');
+    dot.className = 'confetti';
+    dot.style.cssText = `
+      left:${Math.random()*100}%;
+      width:${6+Math.random()*8}px;
+      height:${6+Math.random()*8}px;
+      background:${colors[Math.floor(Math.random()*colors.length)]};
+      animation-duration:${3+Math.random()*4}s;
+      animation-delay:${Math.random()*3}s;
+      border-radius:${Math.random()>0.5?'50%':'4px'};
+      opacity:0.75;
+    `;
+    wrap.appendChild(dot);
+  }
+
+  // auto-close after 4.5s
+  setTimeout(closeSplash, 4500);
+}
+
+function closeSplash(){
+  const s = document.getElementById('splash');
+  if(!s || s.classList.contains('hide')) return;
+  s.classList.add('hide');
+  setTimeout(()=>{ s.style.display='none'; }, 750);
+}
+
+initSplash();
+
+// ── 生產 / 瘦身目標 Helper ──────────────────────────────────
+function toggleBirth(inp){
+  var isYes=inp.value==='有';
+  document.getElementById('birth_yes').classList.toggle('selected',isYes);
+  document.getElementById('birth_no').classList.toggle('selected',!isYes);
+  var det=document.getElementById('birthDetail');
+  if(det)det.style.display=isYes?'flex':'none';
+  if(!isYes){
+    var bc=document.getElementById('f_birthcount');if(bc)bc.value='';
+    var ba=document.getElementById('f_birthafter');if(ba)ba.value='';
+  }
+}
+function setBirth(status,count,after){
+  var hasYes=status==='有';
+  var hasNo=status==='無';
+  var lblY=document.getElementById('birth_yes');
+  var lblN=document.getElementById('birth_no');
+  if(lblY){lblY.classList.toggle('selected',hasYes);lblY.querySelector('input').checked=hasYes;}
+  if(lblN){lblN.classList.toggle('selected',hasNo);lblN.querySelector('input').checked=hasNo;}
+  var det=document.getElementById('birthDetail');
+  if(det)det.style.display=hasYes?'flex':'none';
+  var bc=document.getElementById('f_birthcount');if(bc)bc.value=count||'';
+  var ba=document.getElementById('f_birthafter');if(ba)ba.value=after||'';
+}
+function getBirthStatus(){
+  var y=document.getElementById('birth_yes');
+  var n=document.getElementById('birth_no');
+  if(y&&y.querySelector('input').checked)return'有';
+  if(n&&n.querySelector('input').checked)return'無';
+  return'';
+}
+
+const SLIM_PART_IDS=['sp_whole','sp_belly','sp_waist','sp_arm','sp_thigh','sp_calf','sp_back'];
+function toggleSlimPart(inp){
+  var lbl=inp.closest('label');
+  inp.checked?lbl.classList.add('checked'):lbl.classList.remove('checked');
+}
+function setSlimParts(arr){
+  SLIM_PART_IDS.forEach(function(id){
+    var lbl=document.getElementById(id);if(!lbl)return;
+    var inp=lbl.querySelector('input');
+    var on=(arr||[]).indexOf(inp.value)!==-1;
+    inp.checked=on;
+    on?lbl.classList.add('checked'):lbl.classList.remove('checked');
+  });
+}
+function getSlimParts(){
+  var vals=[];
+  SLIM_PART_IDS.forEach(function(id){
+    var inp=document.querySelector('#'+id+' input');
+    if(inp&&inp.checked)vals.push(inp.value);
+  });
+  return vals;
+}
+
+// ── 已成交：其他改善目標 Helper ──────────────────────────────────
+const EXTRA_GOAL_IDS=['eg_slim','eg_edema','eg_gut','eg_skin','eg_scalp','eg_anti',
+  'eg_immune','eg_sleep','eg_energy','eg_liver','eg_lung','eg_bone',
+  'eg_eye','eg_female','eg_blood','eg_maternity'];
+
+function toggleExtraGoal(inp){
+  var lbl=inp.closest('label');
+  inp.checked?lbl.classList.add('checked'):lbl.classList.remove('checked');
+}
+function setExtraGoals(arr){
+  EXTRA_GOAL_IDS.forEach(function(id){
+    var lbl=document.getElementById(id); if(!lbl)return;
+    var inp=lbl.querySelector('input');
+    var on=(arr||[]).indexOf(inp.value)!==-1;
+    inp.checked=on;
+    on?lbl.classList.add('checked'):lbl.classList.remove('checked');
+  });
+}
+function getExtraGoals(){
+  var vals=[];
+  EXTRA_GOAL_IDS.forEach(function(id){
+    var inp=document.querySelector('#'+id+' input');
+    if(inp&&inp.checked)vals.push(inp.value);
+  });
+  return vals;
+}
+
+// ── 未成交諮詢 / 意向 Helper ──────────────────────────────────
+function renderNoSalePicker(containerId, prefix, selectedArr){
+  var wrap=document.getElementById(containerId); if(!wrap)return;
+  wrap.innerHTML=Object.entries(PCAT).map(function(entry){
+    var catKey=entry[0], cat=entry[1];
+    var prods=cat.products.filter(function(p){return isProductActive(p.name);});
+    if(!prods.length)return'';
+    return '<div class="nosale-picker-cat">'
+      +'<div class="nosale-picker-cat-header" style="color:'+cat.color+'">'+cat.icon+' '+esc(cat.label)+'</div>'
+      +'<div class="nosale-picker-prods">'
+      +prods.map(function(p){
+        var on=(selectedArr||[]).indexOf(p.name)!==-1;
+        return '<label class="nosale-prod-chk'+(on?' checked':'')+'" data-prefix="'+prefix+'" data-prod="'+esc(p.name)+'" onclick="manualToggleLabel(event,this)">'
+          +'<input type="checkbox"'+(on?' checked':'')+' onchange="toggleNosaleProd(this)">'
+          +esc(p.name)+'</label>';
+      }).join('')
+      +'</div></div>';
+  }).join('');
+}
+function toggleNosaleProd(inp){
+  var lbl=inp.closest('label');
+  inp.checked?lbl.classList.add('checked'):lbl.classList.remove('checked');
+}
+function getNosaleProds(prefix){
+  var vals=[];
+  document.querySelectorAll('label[data-prefix="'+prefix+'"].checked').forEach(function(lbl){
+    vals.push(lbl.getAttribute('data-prod'));
+  });
+  return vals;
+}
+
+// ── 售後關心 Helper ──────────────────────────────────
+const REMIND_PRESETS=[1,3,7,14,30,60,90,120,150,180];
+
+function toggleRemindPreset(inp){
+  var lbl=inp.closest('label');
+  inp.checked?lbl.classList.add('checked'):lbl.classList.remove('checked');
+}
+function setRemindPresets(arr){
+  REMIND_PRESETS.forEach(function(d){
+    var lbl=document.getElementById('rpc_'+d);if(!lbl)return;
+    var inp=lbl.querySelector('input');
+    var on=(arr||[]).indexOf(d)!==-1;
+    inp.checked=on;
+    on?lbl.classList.add('checked'):lbl.classList.remove('checked');
+  });
+}
+function getRemindPresets(){
+  var vals=[];
+  REMIND_PRESETS.forEach(function(d){
+    var inp=document.querySelector('#rpc_'+d+' input');
+    if(inp&&inp.checked)vals.push(d);
+  });
+  return vals;
+}
+function toggleCareTrack(inp,id){
+  var el=document.getElementById(id);if(!el)return;
+  inp.checked?el.classList.add('checked'):el.classList.remove('checked');
+}
+function setCareTrack(id,val){
+  var el=document.getElementById(id);if(!el)return;
+  var inp=el.querySelector('input');if(!inp)return;
+  inp.checked=!!val;
+  val?el.classList.add('checked'):el.classList.remove('checked');
+}
+function updateCareNoteCount(){
+  var el=document.getElementById('f_carenote');
+  var cnt=document.getElementById('carenote_count');
+  if(!el||!cnt)return;
+  cnt.textContent=(el.value||'').length+' / 3000 字';
+}
+(function(){
+  document.addEventListener('input',function(e){
+    if(e.target&&e.target.id==='f_carenote')updateCareNoteCount();
+  });
+})();
+
+// ── AI 智慧回訪引擎 ──────────────────────────────────
+function getAIScore(c){
+  const now=new Date(); now.setHours(0,0,0,0);
+  let score=0;
+  const reasons=[];
+
+  if(c.deal&&(c.arrivaldate||c.dealdate)){
+    // ── 已成交客戶 ──
+    const baseStr=c.arrivaldate||c.dealdate;
+    const dealDate=new Date(baseStr); dealDate.setHours(0,0,0,0);
+    const daysSinceDeal=Math.floor((now-dealDate)/86400000);
+
+    // 1. 售後提醒到期 / 逾期
+    (c.reminds||[]).forEach(function(days){
+      const due=new Date(dealDate.getTime()+days*86400000);
+      const diff=Math.floor((due-now)/86400000);
+      if(diff<0){
+        const od=Math.abs(diff);
+        score+=Math.min(od*3,100);
+        reasons.push('🚨 第'+days+'天售後關心已逾期 '+od+' 天未處理');
+      }else if(diff===0){
+        score+=92;
+        reasons.push('⭐ 今天正是第'+days+'天售後關心，最佳聯繫時機！');
+      }else if(diff<=2){
+        score+=72;
+        reasons.push('🔔 第'+days+'天售後關心剩 '+diff+' 天，提前準備問候內容');
+      }else if(diff<=7){
+        score+=42;
+        reasons.push('📅 第'+days+'天售後關心還有 '+diff+' 天');
+      }
+    });
+
+    // 2. 產品補貨週期（以 30 天一盒估算）
+    if(daysSinceDeal>=25&&daysSinceDeal<=34){
+      score+=35;
+      reasons.push('🛍️ 成交 '+daysSinceDeal+' 天，產品快用完了，詢問補貨的好時機');
+    }else if(daysSinceDeal>=55&&daysSinceDeal<=64){
+      score+=28;
+      reasons.push('🛍️ 成交 '+daysSinceDeal+' 天，第二盒進入尾聲，可詢問使用效果');
+    }else if(daysSinceDeal>=85&&daysSinceDeal<=94){
+      score+=22;
+      reasons.push('🛍️ 成交 '+daysSinceDeal+' 天，第三盒快用完，持續關心回購');
+    }
+
+  }else{
+    // ── 未成交客戶 ──
+    const cDate=c.consult?new Date(c.consult):new Date(c.date||Date.now());
+    cDate.setHours(0,0,0,0);
+    const daysSince=Math.floor((now-cDate)/86400000);
+
+    // 3. 諮詢後跟進黃金期
+    if(daysSince<=1){
+      score+=95;
+      reasons.push('🌟 剛諮詢！印象最新鮮，立刻跟進成交率最高');
+    }else if(daysSince<=3){
+      score+=85;
+      reasons.push('⚡ 諮詢後第 '+daysSince+' 天，還在決策期，主動關心能大幅提升成交機會');
+    }else if(daysSince<=7){
+      score+=65;
+      reasons.push('📞 諮詢後 '+daysSince+' 天，分享真實客戶成效案例，激勵決心');
+    }else if(daysSince<=14){
+      score+=45;
+      reasons.push('💬 諮詢後 '+daysSince+' 天，可分享新案例或限時優惠喚起需求');
+    }else if(daysSince<=30){
+      score+=30;
+      reasons.push('🔄 諮詢後 '+daysSince+' 天，嘗試節氣話題自然重新搭話');
+    }else if(daysSince<=90){
+      score+=18;
+      reasons.push('📨 諮詢後 '+daysSince+' 天，沉睡客戶，可節日問候溫熱關係');
+    }else{
+      score+=8;
+      reasons.push('📨 諮詢後超過 '+daysSince+' 天，長期沉睡，低強度保持存在感');
+    }
+
+    // 4. 健康狀況高潛力加分
+    const bmi=getBMI(c);
+    const cons=c.concerns||[];
+    const fatCnt=cons.filter(function(k){return CM[k]&&CM[k].t==='fat';}).length;
+    const femCnt=cons.filter(function(k){return CM[k]&&CM[k].t==='female';}).length;
+    const skinCnt=cons.filter(function(k){return CM[k]&&CM[k].t==='skin';}).length;
+
+    if(bmi&&bmi>=27){
+      score+=22;
+      reasons.push('💪 BMI '+bmi.toFixed(1)+'（肥胖）+ '+fatCnt+' 個肥胖困擾，需求強烈');
+    }else if(bmi&&bmi>=25&&fatCnt>0){
+      score+=16;
+      reasons.push('📊 BMI '+bmi.toFixed(1)+'（過重）有明確瘦身動機');
+    }else if(bmi&&bmi>=23){
+      score+=8;
+      reasons.push('📊 BMI '+bmi.toFixed(1)+'，有體態改善空間');
+    }
+    if(fatCnt>=4){score+=15;reasons.push('🎯 勾選 '+fatCnt+' 項體重問題，痛點明確');}
+    else if(fatCnt>=2){score+=8;reasons.push('🎯 有 '+fatCnt+' 項體重相關困擾');}
+    if(femCnt>=3){score+=14;reasons.push('🌸 '+femCnt+' 個女性健康需求，週期性問題適合持續關心');}
+    else if(femCnt>=1){score+=6;reasons.push('🌸 有女性健康需求');}
+    if(skinCnt>=3){score+=10;reasons.push('✨ '+skinCnt+' 個皮膚問題，可推薦美容保養品');}
+  }
+
+  // 5. 沒有聯絡方式 → 降分提示
+  if(!c.contact||!c.contact.trim()){
+    score=Math.max(0,score-30);
+    if(score>0) reasons.push('⚠️ 尚未記錄聯絡方式，建議先取得聯繫管道');
+  }
+
+  return{score:Math.round(score),reasons:reasons};
+}
+
+function getAISortedClients(){
+  return customers.map(function(c){
+    var r=getAIScore(c);
+    return{client:c,score:r.score,reasons:r.reasons};
+  }).filter(function(x){return x.score>0;}).sort(function(a,b){return b.score-a.score;});
+}
+
+function renderAIRemind(){
+  var tab=document.getElementById('tab-airemind');
+  if(!tab||!tab.classList.contains('active'))return;
+  var sorted=getAISortedClients();
+  var maxScore=sorted.length>0?sorted[0].score:1;
+
+  // TOP 5 cards
+  var top=sorted.slice(0,5);
+  var rankCls=['rank-1','rank-2','rank-3','',''];
+  var rankBadge=['r1','r2','r3','rn','rn'];
+  var rankIcon=['🥇','🥈','🥉','4','5'];
+
+  var top5El=document.getElementById('aiTop5');
+  if(!top5El)return;
+
+  if(top.length===0){
+    top5El.innerHTML='<div class="ai-empty">🎉 目前沒有需要特別跟進的客戶，狀態很好！</div>';
+  }else{
+    top5El.innerHTML='<div class="ai-section-title">🏆 今日最應立刻回訪（TOP '+top.length+'）</div>'
+      +'<div class="ai-top-grid">'+top.map(function(x,i){
+        var c=x.client;
+        var barW=Math.round(x.score/Math.max(maxScore,1)*100);
+        var metaParts=[];
+        if(c.deal){metaParts.push('✅ 已成交');}else{metaParts.push('⏳ 未成交');}
+        var dStr=(c.consult||c.date||'').slice(0,10);
+        if(dStr)metaParts.push('諮詢 '+dStr);
+        var bmi=getBMI(c);
+        if(bmi)metaParts.push('BMI '+bmi.toFixed(1));
+        return '<div class="ai-card '+(rankCls[i]||'')+'" onclick="viewCustomer(\''+c.id+'\')">'
+          +'<div class="ai-rank-badge '+(rankBadge[i]||'rn')+'">'+rankIcon[i]+'</div>'
+          +'<div class="ai-card-name">'+esc(c.name)+'</div>'
+          +'<div class="ai-card-meta">'+metaParts.join(' · ')+'</div>'
+          +'<div class="ai-card-score">'
+            +'<div class="ai-score-bar-wrap"><div class="ai-score-bar" style="width:'+barW+'%"></div></div>'
+            +'<div class="ai-score-num">熱度 '+x.score+'</div>'
+          +'</div>'
+          +'<div class="ai-reasons">'+x.reasons.slice(0,3).map(function(r){
+            return '<div class="ai-reason">'+esc(r)+'</div>';
+          }).join('')+'</div>'
+          +(c.contact?'<div class="ai-contact">📱 '+esc(c.contact)+'</div>':'')
+          +'</div>';
+      }).join('')+'</div>';
+  }
+
+  // Full ranked list
+  var wrapEl=document.getElementById('aiFullListWrap');
+  if(!wrapEl)return;
+  if(sorted.length===0){
+    wrapEl.innerHTML='';
+    return;
+  }
+  wrapEl.innerHTML='<div class="ai-section-title">📋 完整回訪優先排名（共 '+sorted.length+' 位）</div>'
+    +'<div class="ai-full-list">'+sorted.map(function(x,i){
+      var c=x.client;
+      return '<div class="ai-list-item" onclick="viewCustomer(\''+c.id+'\')">'
+        +'<div class="ai-list-rank">'+(i+1)+'</div>'
+        +'<div style="flex:1;min-width:0">'
+          +'<div class="ai-list-name">'+esc(c.name)
+            +(c.deal?'<span class="ai-deal-yes">✅ 成交</span>':'<span class="ai-deal-no">⏳ 未成交</span>')
+          +'</div>'
+          +'<div class="ai-list-reason">'+esc(x.reasons[0]||'')+'</div>'
+        +'</div>'
+        +'<div class="ai-list-score">熱度 '+x.score+'</div>'
+      +'</div>';
+    }).join('')+'</div>';
+}
+
+function copyLineText(){
+  var now=new Date();
+  var dateStr=(now.getMonth()+1)+'月'+now.getDate()+'日';
+  var sorted=getAISortedClients().slice(0,5);
+  var text='📋 書琳今日回訪提醒 '+dateStr+'\n';
+  text+='━━━━━━━━━━━━\n';
+  if(sorted.length===0){
+    text+='🎉 今天沒有緊急回訪任務，狀態很好！\n';
+  }else{
+    text+='今日建議聯繫 '+sorted.length+' 位客戶：\n\n';
+    var nums=['1️⃣','2️⃣','3️⃣','4️⃣','5️⃣'];
+    sorted.forEach(function(x,i){
+      var c=x.client;
+      text+=nums[i]+' '+c.name+(c.deal?' ✅':' ⏳')+'\n';
+      if(x.reasons[0])text+='   '+x.reasons[0]+'\n';
+      if(c.contact)text+='   📱 '+c.contact+'\n';
+      text+='\n';
+    });
+  }
+  text+='━━━━━━━━━━━━\n🤖 AI 回訪助手自動生成';
+  if(navigator.clipboard&&navigator.clipboard.writeText){
+    navigator.clipboard.writeText(text).then(function(){showToast('📋 已複製！貼到 LINE 就能提醒自己');});
+  }else{
+    var ta=document.createElement('textarea');
+    ta.value=text;ta.style.position='fixed';ta.style.opacity='0';
+    document.body.appendChild(ta);ta.select();
+    try{document.execCommand('copy');showToast('📋 已複製！貼到 LINE 就能提醒自己');}
+    catch(e){showToast('❌ 複製失敗，請手動選取文字');}
+    document.body.removeChild(ta);
+  }
+}
+</script>
+</body>
+</html>
