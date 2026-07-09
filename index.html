@@ -1760,6 +1760,7 @@ function submitSetPin(){
   markUnlockedNow();
   const el=document.getElementById('pinLock');
   if(el) el.classList.add('unlocked');
+  load(); // 已通過密碼驗證，才載入客戶資料
 }
 
 function checkPin(){
@@ -1768,6 +1769,7 @@ function checkPin(){
     markUnlockedNow();
     const el=document.getElementById('pinLock');
     if(el) el.classList.add('unlocked');
+    load(); // 已通過密碼驗證，才載入客戶資料
   }else{
     const err=document.getElementById('pinErr');
     if(err){ err.textContent='密碼錯誤，再試一次'; err.style.display='block'; }
@@ -1860,6 +1862,7 @@ try{
   if(isUnlockStillValid() && getStoredPin()){
     const el=document.getElementById('pinLock');
     if(el) el.classList.add('unlocked');
+    load(); // 已通過密碼驗證，才載入客戶資料
   }
 }catch(e){}
 
@@ -2842,7 +2845,7 @@ document.getElementById('addModal').addEventListener('transitionend',()=>{});
 const origOpenAdd=window.openAddModal;
 
 // ── INIT ──────────────────────────────────
-load(); // async，自動雲端同步
+// 資料改成密碼驗證通過後才載入（見 renderPinLock 附近的 unlock 檢查、checkPin()、submitSetPin()）
 
 // Set default datetime for new customers
 const origOpen=openAddModal;
